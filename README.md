@@ -1,2 +1,4 @@
-# aleksander-piprek-Object-detection-algorithms-in-embedded-systems
+# Object detection algorithms in embedded systems
 Master's thesis 
+
+in progress...
