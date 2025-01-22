@@ -3,6 +3,6 @@ This is my Master's thesis, in which I will implement various object detection a
 
 software: C++, OpenCV, Python(possible), yolo, Alexnet, SSD
 
-hardware: esp32, raspberry pi, jetson 
+hardware: raspberry pi and jetson 
 
 in progress...
