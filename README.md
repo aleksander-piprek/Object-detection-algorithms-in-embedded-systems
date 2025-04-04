@@ -1,8 +1,13 @@
 # Object detection algorithms in embedded systems
 This is my Master's thesis, in which I will implement various object detection algorithms on different embedded platforms. Objective of this thesis is to determine the best combination and use case for each embedded device.  
 
-software: C++, OpenCV, Python(possible), yolo, Alexnet, SSD
+Software: C++, OpenCV, Python(possible), yolo, Alexnet, SSD
 
-hardware: raspberry pi and jetson 
+Hardware: raspberry pi and jetson 
 
-in progress...
+## Setup
+To install dependencies needed to run this project please check this shell script and then run it:
+
+~~~
+$ ./setup.sh
+~~~
