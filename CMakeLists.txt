@@ -8,7 +8,8 @@ set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/lib/opencv)
 
 find_package(OpenCV REQUIRED PATHS ${OpenCV_DIR}/build)
 
-set(SOURCES "main.cpp")
+set(SOURCES "main.cpp"
+            "src/window/window.cpp")
 
 add_executable(oda ${SOURCES})
 

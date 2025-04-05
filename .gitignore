@@ -1,4 +1,5 @@
 build/
+./vscode/
 
 ### OpenCV submodule
 lib/opencv/build/
