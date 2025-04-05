@@ -8,7 +8,7 @@ My master's thesis about object detection. In progress...
 This repository relies on submodules (OpenCV and GoogleTest) therefore you need to clone with --recursive flag
 
 ```bash
-$ git clone https://github.com/aleksander-piprek/Object-detection-algorithms-in-embedded-systems.git --recursive
+git clone https://github.com/aleksander-piprek/Object-detection-algorithms-in-embedded-systems.git --recursive
 ```
 
 ### Installing  

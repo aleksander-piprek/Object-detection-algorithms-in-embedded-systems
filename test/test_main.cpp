@@ -1,8 +1,9 @@
-#include <gtest/gtest.h>
+#include "gtest/gtest.h"
 
-#include "../src/window/window.hpp"
+#include "TestWindow/TestWindow.cpp"
 
-TEST(ExampleTest, Test1) 
+int main(int argc, char **argv)
 {
-    EXPECT_EQ(1, 1);
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
