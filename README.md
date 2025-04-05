@@ -15,7 +15,7 @@ git clone https://github.com/aleksander-piprek/Object-detection-algorithms-in-em
 To install dependencies needed to run this project please check this shell script and then run
 
 ```bash
-./setup.sh
+./scripts/setup.sh
 ```
 
 ## Dependencies
