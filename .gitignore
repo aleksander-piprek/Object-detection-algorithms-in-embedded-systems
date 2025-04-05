@@ -1,6 +1,10 @@
-build/
-./vscode/
+build
+.vscode
 
 ### OpenCV submodule
 lib/opencv/build/
 lib/opencv/install/
+
+### GoogleTest submodule
+lib/googletest/build/
+lib/googletest/install/

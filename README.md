@@ -1,7 +1,15 @@
 # Object detection algorithms in embedded systems
 
 ## Setup
-To install dependencies needed to run this project please check this shell script and then run it:
+
+### Cloning
+This repository relies on submodules (OpenCV and GoogleTest) therefore you need to clone with --recursive flag
+~~~
+$ git clone https://github.com/aleksander-piprek/Object-detection-algorithms-in-embedded-systems.git --recursive
+~~~
+
+### Installing  
+To install dependencies needed to run this project please check this shell script and then run
 
 ~~~
 $ ./setup.sh
