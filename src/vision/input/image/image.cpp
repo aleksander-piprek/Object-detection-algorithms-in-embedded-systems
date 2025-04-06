@@ -24,6 +24,5 @@ void Vision::Image::showImage()
         return;
     }
     cv::imshow("Image", image);
-    cv::imwrite("output.jpg", image);   
     cv::waitKey(0);
 }

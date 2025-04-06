@@ -7,11 +7,17 @@ namespace Vision
 {
     class Image : public Input
     {
-        cv::Mat image;
         public:
+            Image() = default;
             Image(const std::string& path);
+
             void showImage();
+
+            inline cv::Mat& getImage() { return image; }
+
         private:
             cv::Mat loadImage(const std::string& path);
+
+            cv::Mat image;
     };
 }
