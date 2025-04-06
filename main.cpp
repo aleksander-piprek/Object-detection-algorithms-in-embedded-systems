@@ -1,9 +1,9 @@
-#include "src/window/window.hpp"
-#include "src/image/image.hpp"
+#include "src/vision/window/window.hpp"
+#include "src/vision/input/image/image.hpp"
 
 int main()
 {
-    Image image("../resources/Crow.JPG");
+    Vision::Image image("../resources/images/Wagtail.JPG");
     image.showImage();
     return 0;
 }

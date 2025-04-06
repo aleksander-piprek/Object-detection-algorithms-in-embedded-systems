@@ -13,8 +13,8 @@ set(GTest_INCLUDE_DIRS ${GTest_DIR}/googletest/include ${GTest_DIR}/googlemock/i
 set(GTest_LIBRARIES ${GTest_DIR}/build/lib/libgtest.a ${GTest_DIR}/build/lib/libgtest_main.a)
 
 set(SOURCES "main.cpp"
-            "src/window/window.cpp"
-            "src/image/image.cpp")
+            "src/vision/window/window.cpp"
+            "src/vision/input/image/image.cpp")
 
 # Production build
 add_executable(oda ${SOURCES})

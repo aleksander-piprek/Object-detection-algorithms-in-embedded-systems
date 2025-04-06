@@ -1,4 +1,4 @@
-#include "../../src/window/window.hpp"
+#include "../../src/vision/window/window.hpp"
 
 class TestWindow
 {
