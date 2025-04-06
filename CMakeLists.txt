@@ -4,24 +4,25 @@ project(oda)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_subdirectory("lib/gtest")
-
 set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/lib/opencv)
 set(GTest_DIR ${CMAKE_SOURCE_DIR}/lib/gtest)
 
 find_package(OpenCV REQUIRED PATHS ${OpenCV_DIR}/build)
 
-enable_testing()
+set(GTest_INCLUDE_DIRS ${GTest_DIR}/googletest/include ${GTest_DIR}/googlemock/include)
+set(GTest_LIBRARIES ${GTest_DIR}/build/lib/libgtest.a ${GTest_DIR}/build/lib/libgtest_main.a)
 
 set(SOURCES "main.cpp"
             "src/window/window.cpp"
             "src/image/image.cpp")
 
+# Production build
 add_executable(oda ${SOURCES})
-
 target_include_directories(oda PRIVATE ${OpenCV_INCLUDE_DIRS})
 target_link_libraries(oda ${OpenCV_LIBS})
 
+# Test build
+enable_testing()
 add_executable(test_oda "test/test_main.cpp")
-target_link_libraries(test_oda gtest gtest_main)
-add_test(NAME TestOda COMMAND test_oda)
+target_include_directories(test_oda PRIVATE ${GTest_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS})
+target_link_libraries(test_oda ${GTest_LIBRARIES})
