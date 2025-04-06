@@ -14,8 +14,8 @@ sudo apt-get update
 sudo apt-get upgrade -y
 
 sudo apt-get install -y cmake g++ build-essential 
-sudo apt-get install -y libgtk2.0-dev pkg-config libgtk-3-0 libgail-common libatk-adaptor libgtk-3-common gtk2-engines-murrine gtk2-engines-pixbuf
-
+sudo apt-get install -y libgtk2.0-dev pkg-config libgtk-3-0 libgail-common libatk-adaptor libgtk-3-common gtk2-engines-murrine gtk2-engines-pixbuf \
+                        libcanberra-gtk-module libcanberra-gtk3-module
 
 # Install OpenCV dependencies
 mkdir -p lib/opencv/build && cd lib/opencv/build

@@ -14,7 +14,8 @@ find_package(OpenCV REQUIRED PATHS ${OpenCV_DIR}/build)
 enable_testing()
 
 set(SOURCES "main.cpp"
-            "src/window/window.cpp")
+            "src/window/window.cpp"
+            "src/image/image.cpp")
 
 add_executable(oda ${SOURCES})
 
