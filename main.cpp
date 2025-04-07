@@ -1,4 +1,4 @@
-#include "src/sandbox.cpp"
+#include "src/sandbox/sandbox.hpp"
 
 int main()
 {

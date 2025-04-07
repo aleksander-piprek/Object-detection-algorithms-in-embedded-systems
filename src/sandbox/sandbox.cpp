@@ -1,18 +1,8 @@
-#include "vision/window/window.hpp"
-#include "vision/input/image/image.hpp"
+#include "sandbox.hpp"
+#include "src/vision/window/window.hpp"
+#include "src/vision/input/image/image.hpp"
 
 #include <opencv2/opencv.hpp>
-
-class Sandbox
-{
-    public:
-        Sandbox() = default;
-        void play();
-        
-        void imageResize();
-        void imageGrayscale();
-        void imageGrayscaleTransition();
-};
 
 void Sandbox::play()
 {
@@ -41,10 +31,4 @@ void Sandbox::imageGrayscaleTransition()
 {
     Vision::Image image("../resources/images/Wagtail.JPG");
     Vision::Image transitions;
-
-    for(auto& colors : colorCodes)
-    {
-        cv::cvtColor(image.getImage(), transitions.getImage(), colors);
-        transitions.showImage();
-    }
 }

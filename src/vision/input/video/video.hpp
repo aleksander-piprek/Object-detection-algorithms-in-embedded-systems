@@ -1,7 +1,7 @@
 #include <string>
 #include <opencv2/opencv.hpp>
 
-#include "../input.hpp"
+#include "src/vision/input/input.hpp"
 
 namespace Vision
 {
