@@ -2,6 +2,11 @@
 
 My master's thesis about object detection. In progress...
 
+## Dependencies
+ - OpenCV
+ - GoogleTest
+ - Yolov5 (in future)
+ 
 ## Setup
 
 ### Cloning
@@ -11,26 +16,21 @@ This repository relies on submodules (OpenCV and GoogleTest) therefore you need 
 git clone https://github.com/aleksander-piprek/Object-detection-algorithms-in-embedded-systems.git --recursive
 ```
 
-### Installing  
-To install dependencies needed to run this project please check this shell script and then run
+### Install  
+To install and build dependencies needed to run this project please check this shell script and then run
 
 ```bash
 ./scripts/setup.sh
 ```
 
-## Dependencies
- - OpenCV
- - GoogleTest
-
-## Build
-### Release
+### Build Production
 ```bash
 mkdir build && cd build
 cmake ..
 make
 ```
 
-### Test
+### Build Unit Tests
 ```bash
 mkdir build && cd build
 cmake ..
