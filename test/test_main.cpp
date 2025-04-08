@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 
 #include "TestWindow/TestWindow.cpp"
+#include "TestImage/TestImage.cpp"
 
 int main(int argc, char **argv)
 {

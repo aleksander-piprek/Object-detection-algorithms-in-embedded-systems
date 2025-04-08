@@ -1,18 +1,8 @@
-#include "../../src/vision/window/window.hpp"
+#include "src/vision/window/window.hpp"
 
 class TestWindow
 {
-public:
-    TestWindow() = default;
-    ~TestWindow() = default;
-
-    void runTests()
-    {
-        // Add your test cases here
-        // For example:
-        // TEST(TestWindow, example)
-        // {
-        //     EXPECT_EQ(1, 1);
-        // }
-    }
+    public:
+        TestWindow() = default;
+        ~TestWindow() = default;
 };
