@@ -6,5 +6,8 @@ class Sandbox
         
         void imageResize();
         void imageGrayscale();
-        void imageGrayscaleTransition();
+        void imageBlur();
+        void imageEdgeDetection();
+        void rotateImage();
+        
 };

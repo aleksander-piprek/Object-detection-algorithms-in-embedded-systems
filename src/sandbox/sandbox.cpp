@@ -6,7 +6,11 @@
 
 void Sandbox::play()
 {
+    imageResize();
     imageGrayscale();
+    imageBlur();
+    imageEdgeDetection();
+    rotateImage();
 }
 
 void Sandbox::imageResize()
@@ -27,8 +31,30 @@ void Sandbox::imageGrayscale()
     gray.showImage();
 }
 
-void Sandbox::imageGrayscaleTransition()
+void Sandbox::imageBlur()
 {
     Vision::Image image("../resources/images/Wagtail.JPG");
-    Vision::Image transitions;
+    Vision::Image blurredImage;
+
+    cv::GaussianBlur(image.getImage(), blurredImage.getImage(), cv::Size(9, 9), 0);
+    blurredImage.showImage();
+}
+
+void Sandbox::imageEdgeDetection()
+{
+    Vision::Image image("../resources/images/Wagtail.JPG");
+    Vision::Image imageEdges;
+
+    cv::Canny(image.getImage(), imageEdges.getImage(), 100, 200);
+    imageEdges.showImage();
+}
+
+void Sandbox::rotateImage()
+{
+    Vision::Image image("../resources/images/Wagtail.JPG");
+    Vision::Image rotatedImage;
+
+    cv::Mat rotationMatrix = cv::getRotationMatrix2D(cv::Point(image.getImage().cols / 2, image.getImage().rows / 2), 45, 1);
+    cv::warpAffine(image.getImage(), rotatedImage.getImage(), rotationMatrix, image.getImage().size());
+    rotatedImage.showImage();
 }
