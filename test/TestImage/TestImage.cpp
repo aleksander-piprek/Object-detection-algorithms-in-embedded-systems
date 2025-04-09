@@ -2,7 +2,9 @@
 
 #include "TestImage.hpp"
 
-TEST(TestImage, example)
+TEST(TestImage, testLoadImage)
 {
-    EXPECT_EQ(1, 1);
+    TestImage testImage("../../resources/images/Crow.JPG");
+    EXPECT_EQ(testImage.getWidth(), 100);
+    EXPECT_EQ(testImage.getHeight(), 100);
 }
