@@ -3,7 +3,7 @@ project(oda)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-
+set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*-*,modernize-*")
 set(BASEPATH ${CMAKE_SOURCE_DIR})
 include_directories(${BASEPATH})
 
