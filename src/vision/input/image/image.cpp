@@ -11,7 +11,7 @@ cv::Mat Vision::Image::loadImage(const std::string& path)
     if(image.empty())
     {
         std::cout << "Could not open or find the image: " << path << std::endl;
-        return cv::Mat();
+        return {};
     }
     return image;
 }

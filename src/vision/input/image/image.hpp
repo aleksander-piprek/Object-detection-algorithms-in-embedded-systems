@@ -1,5 +1,7 @@
-#include <string>
-#include <opencv2/opencv.hpp>
+#pragma once
+
+#ifndef VISION_INPUT_IMAGE_HPP
+#define VISION_INPUT_IMAGE_HPP
 
 #include "src/vision/input/input.hpp"
 
@@ -21,3 +23,5 @@ namespace Vision
             cv::Mat image;
     };
 }
+
+#endif // VISION_INPUT_IMAGE_HPP

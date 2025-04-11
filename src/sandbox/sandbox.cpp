@@ -1,16 +1,16 @@
 #include "sandbox.hpp"
-#include "src/vision/window/window.hpp"
 #include "src/vision/input/image/image.hpp"
-
-#include <opencv2/opencv.hpp>
+#include "src/vision/input/video/video.hpp"
 
 void Sandbox::play()
 {
-    imageResize();
-    imageGrayscale();
-    imageBlur();
-    imageEdgeDetection();
-    rotateImage();
+    // imageResize();
+    // imageGrayscale();
+    // imageBlur();
+    // imageEdgeDetection();
+    // rotateImage();
+    
+    playVideo();
 }
 
 void Sandbox::imageResize()
@@ -57,4 +57,10 @@ void Sandbox::rotateImage()
     cv::Mat rotationMatrix = cv::getRotationMatrix2D(cv::Point(image.getImage().cols / 2, image.getImage().rows / 2), 45, 1);
     cv::warpAffine(image.getImage(), rotatedImage.getImage(), rotationMatrix, image.getImage().size());
     rotatedImage.showImage();
+}
+
+void Sandbox::playVideo()
+{
+    Vision::Video video("../resources/videos/test.mp4");
+    video.playVideo();
 }
