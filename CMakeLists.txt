@@ -3,8 +3,16 @@ project(oda)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*-*,modernize-*")
 set(BASEPATH ${CMAKE_SOURCE_DIR})
+
+set(CMAKE_CXX_CLANG_TIDY 
+    clang-tidy;
+    --extra-arg=-Wno-unknown-warning-option;
+    --extra-arg=-isystem/usr/include/c++/13;
+    --extra-arg=-isystem/usr/include/x86_64-linux-gnu/c++/13;
+    --extra-arg=-isystem/usr/include/c++/13/backward
+)
+
 include_directories(${BASEPATH})
 
 set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/lib/opencv)
@@ -18,7 +26,8 @@ set(GTest_LIBRARIES ${GTest_DIR}/build/lib/libgtest.a ${GTest_DIR}/build/lib/lib
 set(SOURCES "main.cpp"
             "src/sandbox/sandbox.cpp"
             "src/vision/window/window.cpp"
-            "src/vision/input/image/image.cpp")
+            "src/vision/input/image/image.cpp"
+            "src/vision/input/video/video.cpp")
 
 # Production build
 add_executable(oda ${SOURCES})
