@@ -17,6 +17,22 @@ sudo apt-get install -y cmake g++ build-essential clang-tidy
 sudo apt-get install -y libgtk2.0-dev pkg-config libgtk-3-0 libgail-common libatk-adaptor libgtk-3-common gtk2-engines-murrine gtk2-engines-pixbuf \
                         libcanberra-gtk-module libcanberra-gtk3-module 
 
+# CUDA 12.9
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-ubuntu2404.pin
+sudo mv cuda-ubuntu2404.pin /etc/apt/preferences.d/cuda-repository-pin-600
+wget https://developer.download.nvidia.com/compute/cuda/12.9.1/local_installers/cuda-repo-ubuntu2404-12-9-local_12.9.1-575.57.08-1_amd64.deb
+sudo dpkg -i cuda-repo-ubuntu2404-12-9-local_12.9.1-575.57.08-1_amd64.deb
+sudo cp /var/cuda-repo-ubuntu2404-12-9-local/cuda-*-keyring.gpg /usr/share/keyrings/
+sudo apt-get update
+sudo apt-get -y install cuda-toolkit-12-9
+sudo apt-get -y install cuda-drivers
+
+# CUDNN 9.10.2
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt-get update
+sudo apt-get -y install cudnn9-cuda-12
+
 # Install OpenCV dependencies
 mkdir -p lib/opencv/build && cd lib/opencv/build
 
