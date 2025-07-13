@@ -13,13 +13,13 @@ void Sandbox::play()
     // imageBlur();
     // imageEdgeDetection();
     // rotateImage();
-    imageProcessDetections();
+    // imageProcessDetections();
     
     // // 
     // // Video Processing Example
     // //
     // playVideo();
-
+    videoProcessDetections();
 }
 
 void Sandbox::imageResize()
@@ -68,13 +68,18 @@ void Sandbox::rotateImage()
     rotatedImage.showImage();
 }
 
+void Sandbox::imageProcessDetections()
+{
+    inference("../resources/images/Wagtail.jpg");
+}
+
 void Sandbox::playVideo()
 {
     Video video("../resources/videos/test.mp4");
     video.playVideo();
 }
 
-void Sandbox::imageProcessDetections()
+void Sandbox::videoProcessDetections()
 {
-    inference("../resources/images/Wagtail.jpg");
+    inference("../resources/videos/test.mp4");
 }

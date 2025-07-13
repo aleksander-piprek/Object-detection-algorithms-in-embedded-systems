@@ -20,7 +20,7 @@ sudo apt-get install -y libgtk2.0-dev pkg-config libgtk-3-0 libgail-common libat
 # Install OpenCV dependencies
 mkdir -p lib/opencv/build && cd lib/opencv/build
 
-cmake .. \
+cmake ../../opencv \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=../install \
   -DBUILD_SHARED_LIBS=ON \
@@ -29,8 +29,18 @@ cmake .. \
   -DWITH_QT=OFF \
   -DWITH_GTK=ON \
   -DWITH_OPENGL=OFF \
-  -DWITH_VTK=OFF
-
+  -DWITH_VTK=OFF \
+  -DWITH_CUDA=ON \
+  -DWITH_CUDNN=ON \
+  -DCUDNN_INCLUDE_DIR=/usr/include/cuda/ \
+  -DCUDNN_LIBRARY=/usr/lib/cuda/lib64/libcudnn.so \
+  -DCUDA_ARCH_BIN="8.7" \
+  -DCUDA_ARCH_PTX="" \
+  -DOPENCV_DNN_CUDA=ON \
+  -DOPENCV_ENABLE_NONFREE=ON \
+  -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+  -DBUILD_opencv_python3=OFF \
+  -DOPENCV_GENERATE_PKGCONFIG=ON
 make -j$(nproc)
 make install
 

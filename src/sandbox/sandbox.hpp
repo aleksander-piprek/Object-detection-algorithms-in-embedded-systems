@@ -14,4 +14,5 @@ class Sandbox
         
         // Vision::Video
         void playVideo();
+        void videoProcessDetections();
 };
