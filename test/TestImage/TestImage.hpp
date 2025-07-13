@@ -1,6 +1,6 @@
-#include "src/vision/input/image/image.hpp"
+#include "src/input/image/image.hpp"
 
-class TestImage : public Vision::Image
+class TestImage : public Image
 {
     public:
         TestImage() = default;

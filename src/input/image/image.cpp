@@ -1,11 +1,11 @@
 #include "image.hpp"
 
-Vision::Image::Image(const std::string& path)
+Image::Image(const std::string& path)
 {
     image = loadImage(path);
 }
 
-cv::Mat Vision::Image::loadImage(const std::string& path)
+cv::Mat Image::loadImage(const std::string& path)
 {
     image = cv::imread(path, cv::IMREAD_COLOR);
     if(image.empty())
@@ -16,7 +16,7 @@ cv::Mat Vision::Image::loadImage(const std::string& path)
     return image;
 }
 
-void Vision::Image::showImage()
+void Image::showImage()
 {
     if (image.empty())
     {

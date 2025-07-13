@@ -29,9 +29,9 @@ set(OnnxRuntime_LIBRARIES ${OnnxRuntime_DIR}/lib/libonnxruntime.so)
 
 set(SOURCES "main.cpp"
             "src/sandbox/sandbox.cpp"
-            "src/vision/window/window.cpp"
-            "src/vision/input/image/image.cpp"
-            "src/vision/input/video/video.cpp")
+            "src/input/image/image.cpp"
+            "src/input/video/video.cpp"
+            "src/detection/detection.cpp")
 
 # Production build
 add_executable(oda ${SOURCES})

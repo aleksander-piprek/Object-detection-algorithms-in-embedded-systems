@@ -1,11 +1,11 @@
 #include "video.hpp"
 
-Vision::Video::Video(const std::string& path)
+Video::Video(const std::string& path)
 {
     video = loadVideo(path);
 }
 
-cv::VideoCapture Vision::Video::loadVideo(const std::string& path)
+cv::VideoCapture Video::loadVideo(const std::string& path)
 {
     video.open(path);
     if (!video.isOpened())
@@ -16,7 +16,7 @@ cv::VideoCapture Vision::Video::loadVideo(const std::string& path)
     return video;
 }
 
-void Vision::Video::playVideo()
+void Video::playVideo()
 {
     while (true)
     {

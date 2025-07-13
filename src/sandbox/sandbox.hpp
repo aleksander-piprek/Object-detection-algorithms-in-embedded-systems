@@ -10,10 +10,8 @@ class Sandbox
         void imageBlur();
         void imageEdgeDetection();
         void rotateImage();
+        void imageProcessDetections();
         
         // Vision::Video
         void playVideo();
-
-        // Vision::AI
-        void ai();
 };
