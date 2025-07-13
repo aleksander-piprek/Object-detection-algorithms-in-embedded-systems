@@ -24,7 +24,7 @@ void Sandbox::play()
 
 void Sandbox::imageResize()
 {
-    Image image("../resources/images/Wagtail.JPG");
+    Image image("../resources/images/Wagtail.jpg");
     Image resized;
 
     cv::resize(image.getImage(), resized.getImage(), cv::Size(1280, 600));
@@ -33,7 +33,7 @@ void Sandbox::imageResize()
 
 void Sandbox::imageGrayscale()
 {
-    Image image("../resources/images/Wagtail.JPG");
+    Image image("../resources/images/Wagtail.jpg");
     Image gray;
 
     cv::cvtColor(image.getImage(), gray.getImage(), cv::COLOR_BGR2GRAY);
@@ -42,7 +42,7 @@ void Sandbox::imageGrayscale()
 
 void Sandbox::imageBlur()
 {
-    Image image("../resources/images/Wagtail.JPG");
+    Image image("../resources/images/Wagtail.jpg");
     Image blurredImage;
 
     cv::GaussianBlur(image.getImage(), blurredImage.getImage(), cv::Size(9, 9), 0);
@@ -51,7 +51,7 @@ void Sandbox::imageBlur()
 
 void Sandbox::imageEdgeDetection()
 {
-    Image image("../resources/images/Wagtail.JPG");
+    Image image("../resources/images/Wagtail.jpg");
     Image imageEdges;
 
     cv::Canny(image.getImage(), imageEdges.getImage(), 100, 200);
@@ -60,7 +60,7 @@ void Sandbox::imageEdgeDetection()
 
 void Sandbox::rotateImage()
 {
-    Image image("../resources/images/Wagtail.JPG");
+    Image image("../resources/images/Wagtail.jpg");
     Image rotatedImage;
 
     cv::Mat rotationMatrix = cv::getRotationMatrix2D(cv::Point(image.getImage().cols / 2, image.getImage().rows / 2), 45, 1);
@@ -76,5 +76,5 @@ void Sandbox::playVideo()
 
 void Sandbox::imageProcessDetections()
 {
-    inference();
+    inference("../resources/images/Wagtail.jpg");
 }

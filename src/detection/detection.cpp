@@ -1,18 +1,12 @@
+#include "detection.hpp"
+
 #include <onnxruntime_cxx_api.h>
-#include <opencv2/opencv.hpp>
 #include <iostream>
 #include <fstream>
 
 const int INPUT_WIDTH = 640;
 const int INPUT_HEIGHT = 640;
 const float CONFIDENCE_THRESHOLD = 0.5;
-
-struct Detection
-{
-    int class_id;
-    float confidence;
-    cv::Rect box;
-};
 
 std::vector<std::string> load_class_names(const std::string& path) 
 {
@@ -26,7 +20,7 @@ std::vector<std::string> load_class_names(const std::string& path)
     return class_names;
 }
 
-int inference() 
+int inference(const std::string& inputPath) 
 {
     Ort::Env env(ORT_LOGGING_LEVEL_WARNING, "yolov5");
     Ort::SessionOptions session_options;
@@ -41,7 +35,7 @@ int inference()
     auto input_shape = session.GetInputTypeInfo(0).GetTensorTypeAndShapeInfo().GetShape();
     std::vector<std::string> class_names = load_class_names("../resources/coco.names");
 
-    cv::Mat img = cv::imread("../resources/images/Duck.JPG");
+    cv::Mat img = cv::imread(inputPath);
     cv::Mat resized;
     cv::resize(img, resized, cv::Size(INPUT_WIDTH, INPUT_HEIGHT));
     cv::cvtColor(resized, resized, cv::COLOR_BGR2RGB);
@@ -127,21 +121,21 @@ int inference()
 
     for (int idx : nms_indices) 
     {
-    const auto& det = detections[idx];
+        const auto& det = detections[idx];
 
-    cv::rectangle(img, det.box, cv::Scalar(0, 255, 0), 2);
+        cv::rectangle(img, det.box, cv::Scalar(0, 255, 0), 2);
 
-    std::ostringstream label_ss;
-    label_ss << class_names[det.class_id] << " " << std::fixed << std::setprecision(2) << det.confidence;
-    std::string label = label_ss.str();
+        std::ostringstream label_ss;
+        label_ss << class_names[det.class_id] << " " << std::fixed << std::setprecision(2) << det.confidence;
+        std::string label = label_ss.str();
 
-    int baseline = 0;
-    cv::Size label_size = cv::getTextSize(label, cv::FONT_HERSHEY_SIMPLEX, 0.5, 1, &baseline);
-    cv::rectangle(img, cv::Point(det.box.x, det.box.y - label_size.height - 5),
-                        cv::Point(det.box.x + label_size.width, det.box.y),
-                        cv::Scalar(0, 255, 0), cv::FILLED);
-    cv::putText(img, label, cv::Point(det.box.x, det.box.y - 5),
-                cv::FONT_HERSHEY_SIMPLEX, 0.5, {0, 0, 0}, 1);
+        int baseline = 0;
+        cv::Size label_size = cv::getTextSize(label, cv::FONT_HERSHEY_SIMPLEX, 0.5, 1, &baseline);
+        cv::rectangle(img, cv::Point(det.box.x, det.box.y - label_size.height - 5),
+                            cv::Point(det.box.x + label_size.width, det.box.y),
+                            cv::Scalar(0, 255, 0), cv::FILLED);
+        cv::putText(img, label, cv::Point(det.box.x, det.box.y - 5),
+                    cv::FONT_HERSHEY_SIMPLEX, 0.5, {0, 0, 0}, 1);
     }
 
     cv::imshow("Detections", img);
