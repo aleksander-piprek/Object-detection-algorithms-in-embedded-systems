@@ -1,6 +1,7 @@
 #include "sandbox.hpp"
 #include "src/vision/input/image/image.hpp"
 #include "src/vision/input/video/video.hpp"
+#include "src/vision/ai/ai.cpp"
 
 void Sandbox::play()
 {
@@ -10,7 +11,9 @@ void Sandbox::play()
     // imageEdgeDetection();
     // rotateImage();
     
-    playVideo();
+    // playVideo();
+
+    ai();
 }
 
 void Sandbox::imageResize()
@@ -63,4 +66,9 @@ void Sandbox::playVideo()
 {
     Vision::Video video("../resources/videos/test.mp4");
     video.playVideo();
+}
+
+void Sandbox::ai()
+{
+    inference();
 }

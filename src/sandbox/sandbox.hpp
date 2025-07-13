@@ -13,4 +13,7 @@ class Sandbox
         
         // Vision::Video
         void playVideo();
+
+        // Vision::AI
+        void ai();
 };

@@ -5,13 +5,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(BASEPATH ${CMAKE_SOURCE_DIR})
 
-set(CMAKE_CXX_CLANG_TIDY 
-    clang-tidy;
-    --extra-arg=-Wno-unknown-warning-option;
-    --extra-arg=-isystem/usr/include/c++/13;
-    --extra-arg=-isystem/usr/include/x86_64-linux-gnu/c++/13;
-    --extra-arg=-isystem/usr/include/c++/13/backward
-)
+# set(CMAKE_CXX_CLANG_TIDY 
+#     clang-tidy;
+#     --extra-arg=-Wno-unknown-warning-option;
+#     --extra-arg=-isystem/usr/include/c++/13;
+#     --extra-arg=-isystem/usr/include/x86_64-linux-gnu/c++/13;
+#     --extra-arg=-isystem/usr/include/c++/13/backward
+# )
 
 include_directories(${BASEPATH})
 
