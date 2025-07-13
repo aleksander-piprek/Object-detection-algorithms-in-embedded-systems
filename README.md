@@ -5,6 +5,7 @@ My master's thesis about object detection. In progress...
 ## Dependencies
  - OpenCV
  - GoogleTest
+ - Onnx
  - Yolov5 (in future)
  
 ## Setup
