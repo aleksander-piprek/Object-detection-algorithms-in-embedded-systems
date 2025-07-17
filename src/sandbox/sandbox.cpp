@@ -18,8 +18,8 @@ void Sandbox::play()
     // // 
     // // Video Processing Example
     // //
-    // playVideo();
-    videoProcessDetections();
+    playVideo();
+    // videoProcessDetections();
 }
 
 void Sandbox::imageResize()
@@ -75,11 +75,11 @@ void Sandbox::imageProcessDetections()
 
 void Sandbox::playVideo()
 {
-    Video video("../resources/videos/test.mp4");
+    Video video("../resources/videos/people-detection.mp4");
     video.playVideo();
 }
 
 void Sandbox::videoProcessDetections()
 {
-    inference("../resources/videos/test.mp4");
+    inference("../resources/videos/people-detection.mp4");
 }

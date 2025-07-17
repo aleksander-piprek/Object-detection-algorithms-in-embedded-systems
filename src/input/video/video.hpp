@@ -13,15 +13,14 @@ class Video : public Input
 
         void playVideo();
 
-        inline cv::VideoCapture& getVideo() { return video; }
+        inline cv::VideoCapture& getVideo() { return cap; }
         inline cv::Mat& getFrame() { return frame; }
 
     private:
         cv::VideoCapture loadVideo(const std::string& path);
 
-        cv::VideoCapture video;
+        cv::VideoCapture cap;
         cv::Mat frame;
 };
-
 
 #endif // INPUT_VIDEO_HPP

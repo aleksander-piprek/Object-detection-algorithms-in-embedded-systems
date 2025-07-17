@@ -6,7 +6,7 @@
 
 const int INPUT_WIDTH = 640;
 const int INPUT_HEIGHT = 640;
-const float CONFIDENCE_THRESHOLD = 0.5;
+const float CONFIDENCE_THRESHOLD = 0.3;
 
 std::vector<std::string> load_class_names(const std::string& path) 
 {
@@ -184,8 +184,12 @@ int videoInference(const std::string& inputPath)
         return -1;
     }
 
+    double video_fps = cap.get(cv::CAP_PROP_FPS);
+    int delay = (video_fps > 0) ? static_cast<int>(1000.0 / video_fps) : 33; // fallback to ~30 FPS
+
     cv::Mat frame;
-    while (cap.read(frame)) {
+    while (cap.read(frame)) 
+    {
         cv::Mat resized;
         cv::resize(frame, resized, cv::Size(INPUT_WIDTH, INPUT_HEIGHT));
         cv::cvtColor(resized, resized, cv::COLOR_BGR2RGB);
@@ -213,7 +217,8 @@ int videoInference(const std::string& inputPath)
         size_t num_detections = output_shape[1];
         size_t element_size = output_shape[2];
 
-        struct Detection {
+        struct Detection
+        {
             int class_id;
             float confidence;
             cv::Rect box;
@@ -222,7 +227,8 @@ int videoInference(const std::string& inputPath)
         std::vector<cv::Rect> boxes;
         std::vector<float> scores;
 
-        for (size_t i = 0; i < num_detections; ++i) {
+        for (size_t i = 0; i < num_detections; ++i) 
+        {
             float x_center = output_data[i * element_size + 0];
             float y_center = output_data[i * element_size + 1];
             float width    = output_data[i * element_size + 2];
@@ -234,9 +240,11 @@ int videoInference(const std::string& inputPath)
 
             int class_id = 0;
             float max_score = 0.0f;
-            for (int j = 5; j < element_size; ++j) {
+            for (int j = 5; j < element_size; ++j) 
+            {
                 float score = output_data[i * element_size + j];
-                if (score > max_score) {
+                if (score > max_score) 
+                {
                     max_score = score;
                     class_id = j - 5;
                 }
@@ -261,15 +269,20 @@ int videoInference(const std::string& inputPath)
         float nms_threshold = 0.45;
         cv::dnn::NMSBoxes(boxes, scores, CONFIDENCE_THRESHOLD, nms_threshold, nms_indices);
 
-        for (int idx : nms_indices) {
+        for (int idx : nms_indices) 
+        {
             const auto& det = detections[idx];
             cv::rectangle(frame, det.box, cv::Scalar(0, 255, 0), 2);
             cv::putText(frame, std::to_string(det.class_id), cv::Point(det.box.x, det.box.y - 5),
                         cv::FONT_HERSHEY_SIMPLEX, 0.5, {0, 255, 0}, 1);
         }
 
+        cv::putText(frame, "FPS: " + std::to_string(static_cast<int>(video_fps)),
+                    cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 1, {0, 255, 0}, 1);
         cv::imshow("YOLOv5 - Video", frame);
-        if (cv::waitKey(1) == 27) break;
+        int key = cv::waitKey(delay);
+        if (key == 27)
+            break;
     }
 
     cap.release();
