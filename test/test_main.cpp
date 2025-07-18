@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 
-#include "TestImage/TestImage.cpp"
+#include "TestImageInput/TestImageInput.cpp"
+#include "TestVideoInput/TestVideoInput.cpp"
+#include "TestWindowOutput/TestWindowOutput.cpp"
 
 int main(int argc, char **argv)
 {
