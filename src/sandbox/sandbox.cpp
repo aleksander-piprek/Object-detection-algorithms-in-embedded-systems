@@ -1,85 +1,189 @@
 #include "sandbox.hpp"
-#include "src/input/image/image.hpp"
-#include "src/input/video/video.hpp"
+#include "src/input/imageInput/imageInput.hpp"
+#include "src/input/videoInput/videoInput.hpp"
+
+#include "src/output/windowOutput/windowOutput.hpp"
+
 #include "src/detection/detection.hpp"
 
 void Sandbox::play()
 {
     // // 
     // // Image Processing Examples
-    // // 
+    // //
     // imageResize();
     // imageGrayscale();
     // imageBlur();
     // imageEdgeDetection();
     // rotateImage();
-    // imageProcessDetections();
+    // imageInference();
     
     // // 
     // // Video Processing Example
     // //
-    playVideo();
-    // videoProcessDetections();
+    // playVideo();
+    videoInference();
 }
 
 void Sandbox::imageResize()
 {
-    Image image("../resources/images/Wagtail.jpg");
-    Image resized;
+    std::unique_ptr<BaseInput> input;
+    std::unique_ptr<BaseOutput> output;
+    
+    input = std::make_unique<ImageInput>("../resources/input/image/Wagtail.jpg");
+    output = std::make_unique<WindowOutput>("Resized Image");
+    cv::Mat frame;
 
-    cv::resize(image.getImage(), resized.getImage(), cv::Size(1280, 600));
-    resized.showImage();
+    input->read(frame);
+    cv::resize(frame, frame, cv::Size(1280, 600));
+
+    while(true)
+    {
+        output->write(frame);
+        if (cv::waitKey(30) >= 0) 
+            break;
+    }
 }
 
 void Sandbox::imageGrayscale()
 {
-    Image image("../resources/images/Wagtail.jpg");
-    Image gray;
+    std::unique_ptr<BaseInput> input;
+    std::unique_ptr<BaseOutput> output;
+    
+    input = std::make_unique<ImageInput>("../resources/input/image/Wagtail.jpg");
+    output = std::make_unique<WindowOutput>("Grayscale Image");
+    cv::Mat frame;
 
-    cv::cvtColor(image.getImage(), gray.getImage(), cv::COLOR_BGR2GRAY);
-    gray.showImage();
+    input->read(frame);
+    cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);    
+    
+    while(true)
+    {
+        output->write(frame);
+        if (cv::waitKey(30) >= 0) 
+            break;
+    }
 }
 
 void Sandbox::imageBlur()
 {
-    Image image("../resources/images/Wagtail.jpg");
-    Image blurredImage;
+    std::unique_ptr<BaseInput> input;
+    std::unique_ptr<BaseOutput> output;
+    
+    input = std::make_unique<ImageInput>("../resources/input/image/Wagtail.jpg");
+    output = std::make_unique<WindowOutput>("Grayscale Image");
+    cv::Mat frame;
 
-    cv::GaussianBlur(image.getImage(), blurredImage.getImage(), cv::Size(9, 9), 0);
-    blurredImage.showImage();
+    input->read(frame);
+    cv::GaussianBlur(frame, frame, cv::Size(9, 9), 0);    
+    
+    while(true)
+    {
+        output->write(frame);
+        if (cv::waitKey(30) >= 0) 
+            break;
+    }
 }
 
 void Sandbox::imageEdgeDetection()
 {
-    Image image("../resources/images/Wagtail.jpg");
-    Image imageEdges;
+    std::unique_ptr<BaseInput> input;
+    std::unique_ptr<BaseOutput> output;
+    
+    input = std::make_unique<ImageInput>("../resources/input/image/Wagtail.jpg");
+    output = std::make_unique<WindowOutput>("Grayscale Image");
+    cv::Mat frame;
+    cv::Mat edges;
 
-    cv::Canny(image.getImage(), imageEdges.getImage(), 100, 200);
-    imageEdges.showImage();
+    input->read(frame);
+    cv::Canny(frame, edges, 100, 200);
+    
+    while(true)
+    {
+        output->write(edges);
+        if (cv::waitKey(30) >= 0) 
+            break;
+    }    
 }
 
 void Sandbox::rotateImage()
 {
-    Image image("../resources/images/Wagtail.jpg");
-    Image rotatedImage;
+    std::unique_ptr<BaseInput> input;
+    std::unique_ptr<BaseOutput> output;
+    
+    input = std::make_unique<ImageInput>("../resources/input/image/Wagtail.jpg");
+    output = std::make_unique<WindowOutput>("Grayscale Image");
+    cv::Mat frame;
 
-    cv::Mat rotationMatrix = cv::getRotationMatrix2D(cv::Point(image.getImage().cols / 2, image.getImage().rows / 2), 45, 1);
-    cv::warpAffine(image.getImage(), rotatedImage.getImage(), rotationMatrix, image.getImage().size());
-    rotatedImage.showImage();
+    input->read(frame);
+    cv::Mat rotationMatrix = cv::getRotationMatrix2D(cv::Point(frame.cols / 2, frame.rows / 2), 45, 1);
+    cv::warpAffine(frame, frame, rotationMatrix, frame.size());
+
+    while(true)
+    {
+        output->write(frame);
+        if (cv::waitKey(30) >= 0) 
+            break;
+    }
 }
 
-void Sandbox::imageProcessDetections()
+void Sandbox::imageInference()
 {
-    inference("../resources/images/Wagtail.jpg");
+    std::unique_ptr<BaseInput> input;
+    std::unique_ptr<BaseOutput> output;
+    std::unique_ptr<Detection> detection;
+
+    input = std::make_unique<ImageInput>("../resources/input/image/Wagtail.jpg");
+    output = std::make_unique<WindowOutput>("Image Inference");
+    detection = std::make_unique<Detection>("../bin/yolov5s.onnx", "../resources/coco.names");    
+    cv::Mat frame;
+
+    input->read(frame);
+    auto detections = detection->inference(frame);
+    detection->drawDetections(frame, detections);
+
+    while (true) 
+    {
+        output->write(frame);
+        if (cv::waitKey(30) >= 0) 
+            break;
+    }
 }
 
 void Sandbox::playVideo()
 {
-    Video video("../resources/videos/people-detection.mp4");
-    video.playVideo();
+    std::unique_ptr<BaseInput> input;
+    std::unique_ptr<BaseOutput> output;
+
+    input = std::make_unique<VideoInput>("../resources/input/video/people-detection.mp4");
+    output = std::make_unique<WindowOutput>("Video Playback");
+    cv::Mat frame;
+
+    while(input->read(frame))
+    {
+        output->write(frame);
+        if (cv::waitKey(30) >= 0) 
+            break;
+    }
 }
 
-void Sandbox::videoProcessDetections()
+void Sandbox::videoInference()
 {
-    inference("../resources/videos/people-detection.mp4");
+    std::unique_ptr<BaseInput> input;
+    std::unique_ptr<BaseOutput> output;
+    std::unique_ptr<Detection> detection;
+
+    input = std::make_unique<VideoInput>("../resources/input/video/people-detection.mp4");
+    output = std::make_unique<WindowOutput>("Video Inference");
+    detection = std::make_unique<Detection>("../bin/yolov5s.onnx", "../resources/coco.names");    
+    cv::Mat frame;
+
+    while (input->read(frame)) 
+    {
+        auto detections = detection->inference(frame);
+        detection->drawDetections(frame, detections);        
+        output->write(frame);
+        if (cv::waitKey(30) == 0) 
+            break;
+    }
 }

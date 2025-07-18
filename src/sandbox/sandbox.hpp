@@ -3,16 +3,17 @@ class Sandbox
     public:
         Sandbox() = default;
         void play();
-        
-        // Vision::Image
+    
+    private:
+        // ImageInput
         void imageResize();
         void imageGrayscale();
         void imageBlur();
         void imageEdgeDetection();
         void rotateImage();
-        void imageProcessDetections();
+        void imageInference();
         
-        // Vision::Video
+        // VideoInput
         void playVideo();
-        void videoProcessDetections();
+        void videoInference();
 };

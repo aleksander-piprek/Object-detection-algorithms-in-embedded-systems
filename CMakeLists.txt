@@ -35,8 +35,9 @@ include_directories(${BASEPATH} ${CUDNN_INCLUDE_DIR})
 set(SOURCES
     "main.cpp"
     "src/sandbox/sandbox.cpp"
-    "src/input/image/image.cpp"
-    "src/input/video/video.cpp"
+    "src/input/imageInput/imageInput.cpp"
+    "src/input/videoInput/videoInput.cpp"
+    "src/output/windowOutput/windowOutput.cpp"
     "src/detection/detection.cpp"
 )
 
