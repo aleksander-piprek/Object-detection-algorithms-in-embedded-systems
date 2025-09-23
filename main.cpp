@@ -8,7 +8,7 @@
 int main()
 {
     std::string videoInferenceConfigPath = "../cfg/videoInference.cfg";
-    std::string cameraInferenceConfigPath = "../cfg/videoInference.cfg";
+    std::string cameraInferenceConfigPath = "../cfg/cameraInference.cfg";
 
     // Example example;
     // example.run();

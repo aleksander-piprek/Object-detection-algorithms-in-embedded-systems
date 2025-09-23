@@ -1,15 +1,17 @@
 #include "cameraInput.hpp"
 
-CameraInput::CameraInput(const std::string& cameraPath) :
-    cap(cameraPath, cv::CAP_ANY)
+CameraInput::CameraInput(const std::string& cameraPath)
 {
-    if (cap.isOpened()) 
+    std::string pipeline = "v4l2src device=" + cameraPath + " ! video/x-raw,format=YUY2,width=1280,height=720,framerate=30/1 ! jpegdec ! videoconvert ! video/x-raw,format=BGR ! appsink sync=false";
+    cap = cv::VideoCapture(pipeline, cv::CAP_GSTREAMER);
+    if (!cap.isOpened()) 
     {
-        std::cout << "Camera opened successfully: " << cameraPath << std::endl;
-    } 
-    else 
-    {
-        std::cout << "Could not open camera: " << cameraPath << std::endl;
+        pipeline = "v4l2src device=" + cameraPath + " ! video/x-raw,format=YUY2,width=1280,height=720,framerate=30/1 ! videoconvert ! video/x-raw,format=BGR ! appsink sync=false";
+        cap = cv::VideoCapture(pipeline, cv::CAP_GSTREAMER);
+        if (!cap.isOpened()) 
+        {
+            throw std::runtime_error("Failed to open camera with optimized GStreamer pipeline: " + pipeline);
+        }
     }
 }
 

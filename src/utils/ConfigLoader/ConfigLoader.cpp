@@ -44,6 +44,10 @@ std::unordered_map<std::string, std::string> ConfigLoader::loadConfig(const std:
                 {
                     configMap["VideoName"] = getVideoPath(value);
                 }
+                else if (key == "CameraPath")
+                {
+                    configMap["CameraPath"] = value;
+                }
                 else if (key == "Dataset")
                 {
                     configMap["Dataset"] = getClassNamesPath(value);
@@ -66,7 +70,10 @@ std::unordered_map<std::string, std::string> ConfigLoader::loadConfig(const std:
 
     std::cout << "Model Path: "         << configMap["ModelName"]   << "\n";
     std::cout << "Video Path: "         << configMap["VideoName"]   << "\n";
-    std::cout << "Class Names Path: "   << configMap["Dataset"]     << "\n";
+    std::cout << "Camera Path: "        << configMap["CameraPath"]   << "\n";    
+    std::cout << "Class Names Path: "       << configMap["Dataset"]     << "\n";
+    std::cout << "Confidence Threshold: " << configMap["ConfThreshold"] << "\n";
+    std::cout << "NMS Threshold: "      << configMap["NmsThreshold"]  << "\n\n";
 
     return configMap;
 }
