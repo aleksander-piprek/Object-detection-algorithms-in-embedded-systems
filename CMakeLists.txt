@@ -37,6 +37,7 @@ set(SOURCES
     "src/programs/example/example.cpp"
     "src/programs/benchmark/benchmark.cpp"
     "src/programs/videoInference/videoInference.cpp"
+    "src/programs/cameraInference/cameraInference.cpp"
 
     "src/input/imageInput/imageInput.cpp"
     "src/input/videoInput/videoInput.cpp"

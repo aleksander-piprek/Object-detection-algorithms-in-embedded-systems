@@ -4,7 +4,4 @@ build
 lib
 .vscode
 *.log
-resources/input/image/*
-resources/input/video/*
-resources/output/image/*
-resources/output/video/*
+resources

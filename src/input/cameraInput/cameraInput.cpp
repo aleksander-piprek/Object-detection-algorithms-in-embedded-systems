@@ -1,12 +1,13 @@
 #include "cameraInput.hpp"
 
 CameraInput::CameraInput(const std::string& cameraPath) :
-    cap(cameraPath)
+    cap(cameraPath, cv::CAP_ANY)
 {
     if (cap.isOpened()) 
     {
         std::cout << "Camera opened successfully: " << cameraPath << std::endl;
-    } else 
+    } 
+    else 
     {
         std::cout << "Could not open camera: " << cameraPath << std::endl;
     }
