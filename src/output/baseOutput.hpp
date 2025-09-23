@@ -11,6 +11,8 @@ class BaseOutput
         virtual ~BaseOutput() = default;
 
         virtual void write(const cv::Mat& frame) = 0;
+        virtual void write(const cv::Mat& frame, const double& avgFps) = 0;
+
         virtual void close() = 0;
 };
 

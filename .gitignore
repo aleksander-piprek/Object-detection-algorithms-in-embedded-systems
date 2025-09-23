@@ -1,6 +1,10 @@
-bin
+bin/*.onnx
+bin/*.engine
 build
 lib
 .vscode
-notes.txt
 *.log
+resources/input/image/*
+resources/input/video/*
+resources/output/image/*
+resources/output/video/*

@@ -12,10 +12,13 @@ class WindowOutput : public BaseOutput
         ~WindowOutput() = default;
 
         void write(const cv::Mat& frame) override;
+        void write(const cv::Mat& frame, const double& avgFps) override;
         void close() override;
         
     private:
         std::string windowName;
+        int frameCount;
+        std::chrono::high_resolution_clock::time_point startTime;
 };
 
 #endif // WINDOW_OUTPUT_HPP

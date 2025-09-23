@@ -34,11 +34,20 @@ include_directories(${BASEPATH} ${CUDNN_INCLUDE_DIR})
 
 set(SOURCES
     "main.cpp"
-    "src/sandbox/sandbox.cpp"
+    "src/programs/example/example.cpp"
+    "src/programs/benchmark/benchmark.cpp"
+    "src/programs/videoInference/videoInference.cpp"
+
     "src/input/imageInput/imageInput.cpp"
     "src/input/videoInput/videoInput.cpp"
+    "src/input/cameraInput/cameraInput.cpp"
+    
     "src/output/windowOutput/windowOutput.cpp"
-    "src/detection/detection.cpp"
+    
+    "src/detection/yoloDetection/yoloDetection.cpp"
+
+    "src/utils/FpsCounter/FpsCounter.cpp"
+    "src/utils/ConfigLoader/ConfigLoader.cpp"
 )
 
 # === Build main app ===

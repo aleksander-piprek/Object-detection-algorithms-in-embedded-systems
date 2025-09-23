@@ -63,6 +63,7 @@ To export .onnx model you need to follow commands below
 git clone https://github.com/ultralytics/yolov5.git
 cd yolov5
 python3 -m vevn .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 python export.py --weights yolov5s.pt --include onnx --dynamic --simplify
 mkdir ~/Object-detection-algorithms-in-embedded-systems/bin
