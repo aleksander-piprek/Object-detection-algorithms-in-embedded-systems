@@ -1,9 +1,10 @@
 #include "cameraInference.hpp"
-#include "src/input/cameraInput/cameraInput.hpp"
-#include "src/output/windowOutput/windowOutput.hpp"
-#include "src/detection/yoloDetection/yoloDetection.hpp"
-#include "src/utils/ConfigLoader/ConfigLoader.hpp"
-#include "src/utils/FpsCounter/FpsCounter.hpp"
+#include "src/components/input/cameraInput/cameraInput.hpp"
+#include "src/components/output/windowOutput/windowOutput.hpp"
+#include "src/components/detection/yoloDetection/yoloDetection.hpp"
+#include "src/components/detection/yoloDetectionTRT/yoloDetectionTRT.hpp"
+#include "src/components/utils/ConfigLoader/ConfigLoader.hpp"
+#include "src/components/utils/FpsCounter/FpsCounter.hpp"
 
 CameraInference::CameraInference(const std::string& configPath)
 {
@@ -37,7 +38,15 @@ void CameraInference::run()
 
     input = std::make_unique<CameraInput>(cameraPath);
     output = std::make_unique<WindowOutput>("Camera Inference");
-    detection = std::make_unique<YoloDetection>(modelPath, classNamesPath, confThreshold, nmsThreshold);    
+    if(modelPath.find(".onnx") != std::string::npos)
+        detection = std::make_unique<YoloDetection>(modelPath, classNamesPath, confThreshold, nmsThreshold);    
+    else if(modelPath.find(".engine") != std::string::npos)
+        detection = std::make_unique<YoloDetectionTRT>(modelPath, classNamesPath);
+    else
+    {
+        std::cout << "Unsupported model format. Please use .onnx or .engine files." << std::endl;
+        return;
+    }  
 
     cv::Mat frame;
     FpsCounter fpsCounter;

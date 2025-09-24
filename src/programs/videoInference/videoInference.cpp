@@ -1,9 +1,10 @@
 #include "videoInference.hpp"
-#include "src/input/videoInput/videoInput.hpp"
-#include "src/output/windowOutput/windowOutput.hpp"
-#include "src/detection/yoloDetection/yoloDetection.hpp"
-#include "src/utils/ConfigLoader/ConfigLoader.hpp"
-#include "src/utils/FpsCounter/FpsCounter.hpp"
+#include "src/components/input/videoInput/videoInput.hpp"
+#include "src/components/output/windowOutput/windowOutput.hpp"
+#include "src/components/detection/yoloDetection/yoloDetection.hpp"
+#include "src/components/detection/yoloDetectionTRT/yoloDetectionTRT.hpp"
+#include "src/components/utils/ConfigLoader/ConfigLoader.hpp"
+#include "src/components/utils/FpsCounter/FpsCounter.hpp"
 
 VideoInference::VideoInference(const std::string& configPath)
 {
@@ -37,7 +38,15 @@ void VideoInference::run()
 
     input = std::make_unique<VideoInput>(videoPath);
     output = std::make_unique<WindowOutput>("Video Inference");
-    detection = std::make_unique<YoloDetection>(modelPath, classNamesPath, confThreshold, nmsThreshold);    
+    if(modelPath.find(".onnx") != std::string::npos)
+        detection = std::make_unique<YoloDetection>(modelPath, classNamesPath, confThreshold, nmsThreshold);    
+    else if(modelPath.find(".engine") != std::string::npos)
+        detection = std::make_unique<YoloDetectionTRT>(modelPath, classNamesPath);
+    else
+    {
+        std::cout << "Unsupported model format. Please use .onnx or .engine files." << std::endl;
+        return;
+    }
 
     cv::Mat frame;
     FpsCounter fpsCounter;

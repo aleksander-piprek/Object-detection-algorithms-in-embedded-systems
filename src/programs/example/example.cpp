@@ -1,10 +1,10 @@
 #include "example.hpp"
-#include "src/input/imageInput/imageInput.hpp"
-#include "src/input/videoInput/videoInput.hpp"
-#include "src/input/cameraInput/cameraInput.hpp"
-#include "src/output/windowOutput/windowOutput.hpp"
-#include "src/detection/yoloDetection/yoloDetection.hpp"
-#include "src/utils/FpsCounter/FpsCounter.hpp"
+#include "src/components/input/imageInput/imageInput.hpp"
+#include "src/components/input/videoInput/videoInput.hpp"
+#include "src/components/input/cameraInput/cameraInput.hpp"
+#include "src/components/output/windowOutput/windowOutput.hpp"
+#include "src/components/detection/yoloDetection/yoloDetection.hpp"
+#include "src/components/utils/FpsCounter/FpsCounter.hpp"
 
 void Example::run()
 {

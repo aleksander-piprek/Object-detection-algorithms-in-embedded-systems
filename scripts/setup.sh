@@ -12,9 +12,10 @@ LOG_FILE="$SCRIPT_DIR/setup_$(date +'%Y-%m-%d_%H-%M-%S').log"
 
 SUPPORTED_TARGETS=("x86_64-wsl2")
 TARGET=""
-CUDA_VERSION="12.9"
-CUDNN_VERSION="9.10.2"
 UBUNTU_VERSION="ubuntu2404"
+CUDA_VERSION="12.6.2"
+CUDNN_VERSION="9.3.0"
+TENSORRT_VERSION="10.3.0"
 CUDA_ARCH_BIN="8.6"
 
 ###=== Colors ===###
@@ -118,7 +119,7 @@ install_deps()
     libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 }
 
-install_cuda_cudnn()
+install_cuda()
 {
   echo -e "${GREEN}Installing CUDA ${CUDA_VERSION}...${NC}"
   log_and_run wget -q https://developer.download.nvidia.com/compute/cuda/repos/${UBUNTU_VERSION}/x86_64/cuda-ubuntu2404.pin
@@ -128,12 +129,25 @@ install_cuda_cudnn()
   log_and_run sudo cp /var/cuda-repo-${UBUNTU_VERSION}-${CUDA_VERSION//./-}-local/cuda-*-keyring.gpg /usr/share/keyrings/
   log_and_run sudo apt-get update
   log_and_run sudo apt-get -y install cuda-toolkit-${CUDA_VERSION//./-}
+}
 
+install_cudnn()
+{
   echo -e "${GREEN}Installing cuDNN ${CUDNN_VERSION}...${NC}"
   log_and_run wget -q https://developer.download.nvidia.com/compute/cuda/repos/${UBUNTU_VERSION}/x86_64/cuda-keyring_1.1-1_all.deb
   log_and_run sudo dpkg -i cuda-keyring_1.1-1_all.deb
   log_and_run sudo apt-get update
   log_and_run sudo apt-get -y install cudnn9-cuda-12
+}
+
+install_tensorrt()
+{
+wget https://developer.download.nvidia.com/compute/machine-learning/tensorrt/secure/10.3.0/local_repos/nv-tensorrt-local-repo-ubuntu2404-10.3.0-cuda-12.5_1.0-1_amd64.deb
+sudo dpkg -i nv-tensorrt-local-repo-ubuntu2404-10.3.0-cuda-12.5_1.0-1_amd64.deb
+sudo cp /var/nv-tensorrt-local-repo-ubuntu2204-10.3.0-cuda-12.5/nv-tensorrt-local-*-keyring.gpg /usr/share/keyrings/
+sudo apt-get update
+sudo apt-get install tensorrt=10.3.0.1-1+cuda12.5 -y
+sudo apt-get install libnvinfer10=10.3.0.1-1+cuda12.5 libnvinfer-dev=10.3.0.1-1+cuda12.2 libnvinfer-plugin10=10.3.0.1-1+cuda12.2 libnvparsers10=10.3.0.1-1+cuda12.2 libnvonnxparsers10=10.3.0.1-1+cuda12.2 -y
 }
 
 ###=== OpenCV Build ===###

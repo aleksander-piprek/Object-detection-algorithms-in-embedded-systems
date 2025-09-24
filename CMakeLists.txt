@@ -14,6 +14,14 @@ set(OnnxRuntime_DIR "${CMAKE_SOURCE_DIR}/lib/onnxruntime")
 set(OnnxRuntime_INCLUDE_DIRS ${OnnxRuntime_DIR}/include)
 set(OnnxRuntime_LIBRARIES ${OnnxRuntime_DIR}/lib/libonnxruntime.so)
 
+# === CUDA ===
+find_package(CUDA REQUIRED)
+
+include_directories(
+    ${CUDA_INCLUDE_DIRS}
+    ${CUDNN_INCLUDE_DIR}
+    ${BASEPATH})
+
 # === cuDNN ===
 set(CUDNN_INCLUDE_DIR /usr/include/x86_64-linux-gnu)
 set(CUDNN_LIBRARY /usr/lib/x86_64-linux-gnu/libcudnn.so)
@@ -28,14 +36,15 @@ set(SOURCES
     "src/programs/videoInference/videoInference.cpp"
     "src/programs/cameraInference/cameraInference.cpp"
     ### Components
-    "src/input/imageInput/imageInput.cpp"
-    "src/input/videoInput/videoInput.cpp"
-    "src/input/cameraInput/cameraInput.cpp"
-    "src/detection/yoloDetection/yoloDetection.cpp"
-    "src/output/windowOutput/windowOutput.cpp"
+    "src/components/input/imageInput/imageInput.cpp"
+    "src/components/input/videoInput/videoInput.cpp"
+    "src/components/input/cameraInput/cameraInput.cpp"
+    "src/components/detection/yoloDetection/yoloDetection.cpp"
+    "src/components/detection/yoloDetectionTRT/yoloDetectionTRT.cpp"    
+    "src/components/output/windowOutput/windowOutput.cpp"
     ### Utils
-    "src/utils/FpsCounter/FpsCounter.cpp"
-    "src/utils/ConfigLoader/ConfigLoader.cpp"
+    "src/components/utils/FpsCounter/FpsCounter.cpp"
+    "src/components/utils/ConfigLoader/ConfigLoader.cpp"
 )
 
 # === Build main app ===

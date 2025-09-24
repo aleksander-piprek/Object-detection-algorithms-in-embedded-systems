@@ -6,7 +6,7 @@
 #include <opencv2/opencv.hpp>
 #include <onnxruntime_cxx_api.h>
 
-#include "src/detection/baseDetection.hpp"
+#include "src/components/detection/baseDetection.hpp"
 
 class YoloDetection : public BaseDetection
 {

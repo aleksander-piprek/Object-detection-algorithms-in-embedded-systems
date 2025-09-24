@@ -3,7 +3,7 @@
 #ifndef IMAGE_INPUT_HPP
 #define IMAGE_INPUT_HPP
 
-#include "src/input/baseInput.hpp"
+#include "src/components/input/baseInput.hpp"
 
 class ImageInput : public BaseInput
 {

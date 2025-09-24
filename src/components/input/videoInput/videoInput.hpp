@@ -3,7 +3,7 @@
 #ifndef VIDEO_INPUT_HPP
 #define VIDEO_INPUT_HPP
 
-#include "src/input/baseInput.hpp" 
+#include "src/components/input/baseInput.hpp" 
 
 class VideoInput : public BaseInput
 {

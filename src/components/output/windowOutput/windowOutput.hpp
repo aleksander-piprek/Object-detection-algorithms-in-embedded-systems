@@ -3,7 +3,7 @@
 #ifndef WINDOW_OUTPUT_HPP
 #define WINDOW_OUTPUT_HPP
 
-#include "src/output/baseOutput.hpp"
+#include "src/components/output/baseOutput.hpp"
 
 class WindowOutput : public BaseOutput
 {

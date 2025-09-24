@@ -1,10 +1,11 @@
 #include "benchmark.hpp"
-#include "src/input/imageInput/imageInput.hpp"
-#include "src/input/videoInput/videoInput.hpp"
-#include "src/input/cameraInput/cameraInput.hpp"
-#include "src/output/windowOutput/windowOutput.hpp"
-#include "src/detection/yoloDetection/yoloDetection.hpp"
-#include "src/utils/ConfigLoader/ConfigLoader.hpp"
+#include "src/components/input/imageInput/imageInput.hpp"
+#include "src/components/input/videoInput/videoInput.hpp"
+#include "src/components/input/cameraInput/cameraInput.hpp"
+#include "src/components/output/windowOutput/windowOutput.hpp"
+#include "src/components/detection/yoloDetection/yoloDetection.hpp"
+#include "src/components/detection/yoloDetectionTRT/yoloDetectionTRT.hpp"
+#include "src/components/utils/ConfigLoader/ConfigLoader.hpp"
 
 #include <numeric>
 
@@ -31,6 +32,8 @@ bool Benchmark::loadBenchmarkConfig(const std::string& configPath)
     modelPath = configMap["ModelName"];
     videoPath = configMap["VideoName"];
     classNamesPath = configMap["Dataset"];
+    confThreshold = std::stof(configMap["ConfThreshold"]);
+    nmsThreshold = std::stof(configMap["NmsThreshold"]);
 
     return true; 
 }
@@ -41,7 +44,15 @@ void Benchmark::benchmarkVideoInference()
     std::unique_ptr<BaseDetection> detection;
 
     input = std::make_unique<VideoInput>(videoPath);
-    detection = std::make_unique<YoloDetection>(modelPath, classNamesPath);    
+    if(modelPath.find(".onnx") != std::string::npos)
+        detection = std::make_unique<YoloDetection>(modelPath, classNamesPath, confThreshold, nmsThreshold);    
+    else if(modelPath.find(".engine") != std::string::npos)
+        detection = std::make_unique<YoloDetectionTRT>(modelPath, classNamesPath);
+    else
+    {
+        std::cout << "Unsupported model format. Please use .onnx or .engine files." << std::endl;
+        return;
+    } 
 
     cv::Mat frame;
     input->read(frame);

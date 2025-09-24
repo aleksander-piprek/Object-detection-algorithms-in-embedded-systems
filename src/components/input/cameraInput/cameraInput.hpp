@@ -3,7 +3,7 @@
 #ifndef CAMERA_INPUT_HPP
 #define CAMERA_INPUT_HPP
 
-#include "src/input/baseInput.hpp" 
+#include "src/components/input/baseInput.hpp" 
 
 class CameraInput : public BaseInput
 {

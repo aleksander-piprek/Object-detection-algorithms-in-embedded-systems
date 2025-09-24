@@ -16,4 +16,6 @@ class Benchmark
         std::string modelPath;
         std::string videoPath;
         std::string classNamesPath;
+        float confThreshold;
+        float nmsThreshold;        
 };
