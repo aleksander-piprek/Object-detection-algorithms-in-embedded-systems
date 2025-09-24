@@ -16,11 +16,11 @@ int main()
     // Benchmark benchmarkInstance(configPath);
     // benchmarkInstance.run();
 
-    // VideoInference videoInferenceInstance(videoInferenceConfigPath);
-    // videoInferenceInstance.run();
+    VideoInference videoInferenceInstance(videoInferenceConfigPath);
+    videoInferenceInstance.run();
 
-    CameraInference cameraInferenceInstance(cameraInferenceConfigPath);
-    cameraInferenceInstance.run();
+    // CameraInference cameraInferenceInstance(cameraInferenceConfigPath);
+    // cameraInferenceInstance.run();
 
     return 0;    
 }
