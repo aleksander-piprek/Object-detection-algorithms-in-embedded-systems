@@ -14,7 +14,7 @@ sudo apt-get install -y cmake g++ build-essential clang-tidy gcc-12 g++-12 \
     libcanberra-gtk3-module ffmpeg libavcodec-dev libavformat-dev libswscale-dev \
     libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
-### CUDA and cuDNN
+### CUDA 
 
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/arm64/cuda-ubuntu2204.pin
 sudo mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
@@ -24,6 +24,8 @@ sudo cp /var/cuda-tegra-repo-ubuntu2204-12-6-local/cuda-*-keyring.gpg /usr/share
 sudo apt-get update
 sudo apt-get -y install cuda-toolkit-12-6 cuda-compat-12-6
 
+### cuDNN
+
 wget https://developer.download.nvidia.com/compute/cudnn/9.3.0/local_installers/cudnn-local-tegra-repo-ubuntu2204-9.3.0_1.0-1_arm64.deb
 sudo dpkg -i cudnn-local-tegra-repo-ubuntu2204-9.3.0_1.0-1_arm64.deb
 sudo cp /var/cudnn-local-tegra-repo-ubuntu2204-9.3.0/cudnn-*-keyring.gpg /usr/share/keyrings/
@@ -32,6 +34,11 @@ sudo apt-get -y install cudnn cudnn-cuda-12
 
 ### TensorRT
 
+
+
+echo 'export PATH=/usr/local/cuda-12.6/bin:$PATH' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/usr/local/cuda-12.6/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
+source ~/.bashrc
 
 
 ### OpenCV
@@ -68,3 +75,8 @@ cmake ../../opencv \
         
 make -j${NUM_CORES}
 make install    
+
+### Verify
+# nvcc --version
+# which nvcc trtexec
+# dpkg -l | grep -E 'cuda|cudnn|tensorrt|nvinfer'

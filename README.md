@@ -9,6 +9,7 @@ My master's thesis about a modular and high-performance object detection platfor
 
 - [Features](#features)
 - [Installation](#installation)
+- [Usage](#usage)
 - [Tests](#tests)
 - [Notes](#notes)
 - [Benchmarks](#benchmarks)
@@ -53,9 +54,7 @@ make -j$(nproc)
 ```
 
 ### Install  
-```bash
-./scripts/setup.sh
-```
+Few installation scripts are provided. Make use of them however you want.
 
 ### Export YOLOV5 models
 To export .onnx model you need to follow commands below
@@ -68,6 +67,18 @@ pip install -r requirements.txt
 python export.py --weights yolov5s.pt --include onnx --dynamic --simplify
 mkdir ~/Object-detection-algorithms-in-embedded-systems/bin
 cp yolov5s.onnx ~/Object-detection-algorithms-in-embedded-systems/bin/
+```
+
+### TensorRT
+Exporting models from .onnx format to TensorRT, can be done using command below
+```
+/usr/src/tensorrt/bin/trtexec   --onnx=yolov5s.onnx   --saveEngine=yolov5m_fp16.engine   --fp16   --minShapes=images:1x3x640x640   --optShapes=images:1x3x640x640   --maxShapes=images:1x3x640x640
+```
+
+## Usage
+Code uses .cfg files for faster compilation
+```
+./oda Example
 ```
 
 ## Notes

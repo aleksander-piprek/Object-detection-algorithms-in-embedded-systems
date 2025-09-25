@@ -4,6 +4,8 @@
 
 set -e
 
+### Uninstall CUDA 
+
 echo "Uninstalling CUDA..." | tee -a uninstall_log.txt
 sudo dpkg --remove --force-all cuda-repo-ubuntu2404-12-6-local
 sudo apt purge --autoremove cuda* nvidia* -y | tee -a uninstall_log.txt
@@ -14,6 +16,8 @@ sudo rm -rf /var/cuda-repo* | tee -a uninstall_log.txt
 sudo rm -f /etc/apt/preferences.d/cuda-repository-pin* | tee -a uninstall_log.txt
 sudo apt-get update | tee -a uninstall_log.txt
 
+### Uninstall cuDNN
+
 echo "Uninstalling cuDNN..." | tee -a uninstall_log.txt
 sudo apt purge --autoremove cudnn* libcudnn* -y | tee -a uninstall_log.txt
 sudo apt autoremove -y | tee -a uninstall_log.txt
@@ -21,6 +25,8 @@ sudo rm -rf /usr/lib/x86_64-linux-gnu/libcudnn* | tee -a uninstall_log.txt
 sudo rm -rf /usr/include/x86_64-linux-gnu/cudnn* | tee -a uninstall_log.txt
 sudo rm -rf /var/cudnn-local-repo* | tee -a uninstall_log.txt
 sudo apt-get update | tee -a uninstall_log.txt
+
+### Uninstall TensorRT
 
 echo "Uninstalling TensorRT..." | tee -a uninstall_log.txt
 sudo dpkg --remove --force-all nv-tensorrt-local-repo-ubuntu2204-10.3.0-cuda-12.5

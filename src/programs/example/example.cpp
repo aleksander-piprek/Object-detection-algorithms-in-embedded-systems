@@ -21,8 +21,8 @@ void Example::run()
     // // 
     // // Video Processing Example
     // //
-    // playVideo();
-    videoInference();
+    playVideo();
+    // videoInference();
 
     // // 
     // // Camera Processing Example
@@ -169,13 +169,17 @@ void Example::playVideo()
     std::unique_ptr<BaseInput> input;
     std::unique_ptr<BaseOutput> output;
 
-    input = std::make_unique<VideoInput>("../resources/input/video/people-detection.mp4");
+    input = std::make_unique<VideoInput>("../resources/input/video/video1.mp4");
     output = std::make_unique<WindowOutput>("Video Playback");
     cv::Mat frame;
+    FpsCounter fpsCounter;
 
     while(input->read(frame))
     {
-        output->write(frame);
+        double avg_fps = fpsCounter.update();
+
+        output->write(frame, avg_fps);
+
         if (cv::waitKey(1) == 27) 
             break;
     }

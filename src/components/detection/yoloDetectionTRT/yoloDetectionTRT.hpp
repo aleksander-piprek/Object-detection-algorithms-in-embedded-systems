@@ -3,39 +3,53 @@
 #ifndef YOLO_DETECTION_TRT_HPP
 #define YOLO_DETECTION_TRT_HPP
 
-#include <NvInfer.h>
-#include <NvOnnxParser.h>
-#include <cuda_runtime_api.h>
-
 #include <opencv2/opencv.hpp>
-#include <fstream>
-#include <iostream>
-#include <memory>
-#include <string>
+#include <NvInfer.h>
+#include <NvInferRuntime.h>
+#include <cuda_runtime_api.h>
 #include <vector>
+#include <string>
+#include <memory>
 
 #include "src/components/detection/baseDetection.hpp"
 
-class YoloDetectionTRT : public BaseDetection
-{
-    public:
-        YoloDetectionTRT(const std::string& model_path, 
-                             const std::string& class_names_path);    
-        std::vector<DetectionResult> inference(cv::Mat& frame) override;
-        void drawDetections(cv::Mat& frame, const std::vector<DetectionResult>& detections) override;
+class Logger : public nvinfer1::ILogger {
+public:
+    void log(nvinfer1::ILogger::Severity severity, const char* msg) noexcept override {
+        if (severity != nvinfer1::ILogger::Severity::kINFO) {
+            std::cerr << msg << std::endl;
+        }
+    }
+};
 
-    private:
-        std::vector<std::string> loadClassNames(const std::string& path);
-        void* buffers[2];
-        int inputIndex, outputIndex;
-        int inputW, inputH;
+class YoloDetectionTRT : public BaseDetection {
+public:
+    YoloDetectionTRT(const std::string& engine_path, const std::string& class_names_path);
+    YoloDetectionTRT(const std::string& engine_path, const std::string& class_names_path,
+                     const float& confThreshold, const float& nmsThreshold);
+    ~YoloDetectionTRT();
 
-        std::unique_ptr<nvinfer1::IRuntime> runtime;
-        std::unique_ptr<nvinfer1::ICudaEngine> engine;
-        std::unique_ptr<nvinfer1::IExecutionContext> context;
+    std::vector<DetectionResult> inference(cv::Mat& frame) override;
+    void drawDetections(cv::Mat& frame, const std::vector<DetectionResult>& detections) override;
 
-        cudaStream_t stream;
-        std::vector<std::string> class_names;
+private:
+    std::vector<std::string> loadClassNames(const std::string& path);
+
+    Logger logger;
+    nvinfer1::IRuntime* runtime;
+    nvinfer1::ICudaEngine* engine;
+    nvinfer1::IExecutionContext* context;
+    std::vector<void*> buffers;
+    std::vector<std::string> binding_names;
+    std::vector<bool> is_input;
+    std::vector<nvinfer1::Dims> binding_dims;
+    cudaStream_t stream;
+
+    std::vector<std::string> class_names;
+    const int INPUT_WIDTH = 640;
+    const int INPUT_HEIGHT = 640;
+    float CONFIDENCE_THRESHOLD = 0.25f; // Default
+    float NMS_THRESHOLD = 0.45f;        // Default
 };
 
 #endif // YOLO_DETECTION_TRT_HPP

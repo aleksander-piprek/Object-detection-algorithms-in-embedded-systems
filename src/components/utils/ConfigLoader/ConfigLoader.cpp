@@ -80,7 +80,7 @@ std::unordered_map<std::string, std::string> ConfigLoader::loadConfig(const std:
 
 std::string ConfigLoader::getModelPath(const std::string& model_name)
 {
-    return "../bin/" + model_name + ".onnx";
+    return "../bin/" + model_name;
 }
 
 std::string ConfigLoader::getVideoPath(const std::string& video_name)

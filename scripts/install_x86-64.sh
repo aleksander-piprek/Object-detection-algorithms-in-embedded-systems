@@ -12,7 +12,7 @@ sudo apt-get install -y cmake g++ build-essential clang-tidy gcc-12 g++-12 \
     libgtk2.0-dev pkg-config libgtk-3-0 libgail-common libatk-adaptor libgtk-3-common \
     gtk2-engines-murrine gtk2-engines-pixbuf libcanberra-gtk-module \
     libcanberra-gtk3-module ffmpeg libavcodec-dev libavformat-dev libswscale-dev \
-    libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+    libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgtk-3-dev libopenjp2-7-dev 
 
 ### CUDA 12.6
 
@@ -75,7 +75,7 @@ cmake ../../opencv \
     -DCMAKE_C_COMPILER=/usr/bin/gcc-12 \
     -DCMAKE_CXX_COMPILER=/usr/bin/g++-12
 
-make -j${NUM_CORES}
+make -j18
 make install
 
 ### Verify

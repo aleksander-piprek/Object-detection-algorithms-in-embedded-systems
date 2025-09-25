@@ -16,17 +16,25 @@ set(OnnxRuntime_LIBRARIES ${OnnxRuntime_DIR}/lib/libonnxruntime.so)
 
 # === CUDA ===
 find_package(CUDA REQUIRED)
-
-include_directories(
-    ${CUDA_INCLUDE_DIRS}
-    ${CUDNN_INCLUDE_DIR}
-    ${BASEPATH})
+find_library(CUDART_LIBRARY cudart HINTS ${CUDA_TOOLKIT_ROOT_DIR}/lib64)
 
 # === cuDNN ===
 set(CUDNN_INCLUDE_DIR /usr/include/x86_64-linux-gnu)
-set(CUDNN_LIBRARY /usr/lib/x86_64-linux-gnu/libcudnn.so)
+find_library(CUDNN_LIBRARY cudnn HINTS /usr/lib/x86_64-linux-gnu)
 
-include_directories(${BASEPATH} ${CUDNN_INCLUDE_DIR})
+# === TensorRT ===
+find_library(TENSORRT_LIBRARY nvinfer HINTS /usr/lib/x86_64-linux-gnu)
+find_library(TENSORRT_PLUGIN_LIBRARY nvinfer_plugin HINTS /usr/lib/x86_64-linux-gnu)
+find_path(TENSORRT_INCLUDE_DIR NvInfer.h HINTS /usr/include/x86_64-linux-gnu)
+
+include_directories(
+    ${BASEPATH}
+    ${OpenCV_INCLUDE_DIRS}
+    ${OnnxRuntime_INCLUDE_DIRS}
+    ${CUDA_INCLUDE_DIRS}
+    ${CUDNN_INCLUDE_DIR}
+    ${TENSORRT_INCLUDE_DIR}
+)
 
 set(SOURCES
     "main.cpp"
@@ -49,13 +57,12 @@ set(SOURCES
 
 # === Build main app ===
 add_executable(oda ${SOURCES})
-target_include_directories(oda PRIVATE
-    ${OpenCV_INCLUDE_DIRS}
-    ${OnnxRuntime_INCLUDE_DIRS}
-    ${CUDNN_INCLUDE_DIR}
-)
 target_link_libraries(oda
     ${OpenCV_LIBS}
     ${OnnxRuntime_LIBRARIES}
+    ${CUDA_LIBRARIES}
+    ${CUDART_LIBRARY}
     ${CUDNN_LIBRARY}
+    ${TENSORRT_LIBRARY}
+    ${TENSORRT_PLUGIN_LIBRARY}
 )

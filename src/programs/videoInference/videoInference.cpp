@@ -41,13 +41,13 @@ void VideoInference::run()
     if(modelPath.find(".onnx") != std::string::npos)
         detection = std::make_unique<YoloDetection>(modelPath, classNamesPath, confThreshold, nmsThreshold);    
     else if(modelPath.find(".engine") != std::string::npos)
-        detection = std::make_unique<YoloDetectionTRT>(modelPath, classNamesPath);
+        detection = std::make_unique<YoloDetectionTRT>(modelPath, classNamesPath, confThreshold, nmsThreshold);
     else
     {
         std::cout << "Unsupported model format. Please use .onnx or .engine files." << std::endl;
         return;
     }
-
+ 
     cv::Mat frame;
     FpsCounter fpsCounter;
 
