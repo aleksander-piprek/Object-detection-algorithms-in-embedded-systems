@@ -24,6 +24,10 @@ sudo cp /var/cuda-repo-ubuntu2204-12-6-local/cuda-*-keyring.gpg /usr/share/keyri
 sudo apt-get update
 sudo apt-get -y install cuda-toolkit-12-6
 
+echo 'export PATH=/usr/local/cuda-12.6/bin:$PATH' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/usr/local/cuda-12.6/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
+source ~/.bashrc
+
 ### cuDNN 9.3
 
 wget https://developer.download.nvidia.com/compute/cudnn/9.3.0/local_installers/cudnn-local-repo-ubuntu2204-9.3.0_1.0-1_amd64.deb
@@ -40,43 +44,62 @@ sudo cp /var/nv-tensorrt-local-repo-ubuntu2204-10.3.0-cuda-12.5/nv-tensorrt-loca
 sudo apt-get update
 sudo apt-get -y install tensorrt
 
-echo 'export PATH=/usr/local/cuda-12.6/bin:$PATH' >> ~/.bashrc
-echo 'export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/usr/local/cuda-12.6/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
-source ~/.bashrc
+### ONNX Runtime 1.22.0
+
+# cd lib/onnxruntime
+# ./build.sh --config Release \
+#     --use_cuda \
+#     --cuda_home /usr/local/cuda-12.6 \
+#     --cudnn_home /usr \
+#     --use_tensorrt \
+#     --tensorrt_home /usr \
+#     --build_shared_lib \
+#     --parallel 18 \
+#     --cmake_extra_defines CMAKE_CXX_COMPILER=/usr/bin/g++-12 \
+#                           CMAKE_C_COMPILER=/usr/bin/gcc-12 \
+#                           CUDA_VERSION=12.6 \
+#                           CUDNN_VERSION=9.3.0 \
+#                           onnxruntime_BUILD_UNIT_TESTS=OFF
+# cd build/Linux/Release
+# make install
+# sudo cp -r ./install/* /usr/local/
+# cd ../../..
+
+# echo 'export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
 
 ### OpenCV
 
-mkdir -p lib/opencv/build
-cd lib/opencv/build
+# mkdir -p lib/opencv/build
+# cd lib/opencv/build
 
-cmake ../../opencv \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=../install \
-    -DBUILD_SHARED_LIBS=ON \
-    -DBUILD_TESTS=OFF \
-    -DBUILD_PERF_TESTS=OFF \
-    -DWITH_QT=OFF \
-    -DWITH_GTK=ON \
-    -DWITH_OPENGL=OFF \
-    -DWITH_VTK=OFF \
-    -DWITH_CUDA=ON \
-    -DWITH_CUDNN=ON \
-    -DWITH_GSTREAMER=ON \
-    -DWITH_FFMPEG=ON \
-    -DCUDNN_INCLUDE_DIR=/usr/include/x86_64-linux-gnu \
-    -DCUDNN_LIBRARY=/usr/lib/x86_64-linux-gnu/libcudnn.so \
-    -DCUDA_ARCH_BIN=8.6 \
-    -DCUDA_ARCH_PTX="" \
-    -DOPENCV_DNN_CUDA=ON \
-    -DOPENCV_ENABLE_NONFREE=ON \
-    -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
-    -DBUILD_opencv_python3=OFF \
-    -DOPENCV_GENERATE_PKGCONFIG=ON \
-    -DCMAKE_C_COMPILER=/usr/bin/gcc-12 \
-    -DCMAKE_CXX_COMPILER=/usr/bin/g++-12
+# cmake ../../opencv \
+#     -DCMAKE_BUILD_TYPE=Release \
+#     -DCMAKE_INSTALL_PREFIX=../install \
+#     -DBUILD_SHARED_LIBS=ON \
+#     -DBUILD_TESTS=OFF \
+#     -DBUILD_PERF_TESTS=OFF \
+#     -DWITH_QT=OFF \
+#     -DWITH_GTK=ON \
+#     -DWITH_OPENGL=OFF \
+#     -DWITH_VTK=OFF \
+#     -DWITH_CUDA=ON \
+#     -DWITH_CUDNN=ON \
+#     -DWITH_GSTREAMER=ON \
+#     -DWITH_FFMPEG=ON \
+#     -DCUDNN_INCLUDE_DIR=/usr/include/x86_64-linux-gnu \
+#     -DCUDNN_LIBRARY=/usr/lib/x86_64-linux-gnu/libcudnn.so \
+#     -DCUDA_ARCH_BIN=8.6 \
+#     -DCUDA_ARCH_PTX="" \
+#     -DOPENCV_DNN_CUDA=ON \
+#     -DOPENCV_ENABLE_NONFREE=ON \
+#     -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+#     -DBUILD_opencv_python3=OFF \
+#     -DOPENCV_GENERATE_PKGCONFIG=ON \
+#     -DCMAKE_C_COMPILER=/usr/bin/gcc-12 \
+#     -DCMAKE_CXX_COMPILER=/usr/bin/g++-12
 
-make -j18
-make install
+# make -j18
+# make install
 
 ### Verify
 # nvcc --version

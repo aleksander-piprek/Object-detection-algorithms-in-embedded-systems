@@ -27,6 +27,7 @@ My master's thesis about a modular and high-performance object detection platfor
 ## Installation
 
 ### Requirements
+- Ubuntu 22.04.05 (WSL2 works)
 - CMake >= 3.15
 - C++17
 - OpenCV
@@ -37,10 +38,11 @@ My master's thesis about a modular and high-performance object detection platfor
 | Name           | Version |
 |----------------|---------|
 | gcc            | 12.3    |
-| OpenCV         | 5.x     |
-| OpenCV contrib | 5.x     |
-| CUDA           | 12.9    |
-| cuDNN          | 9.10.2  |
+| OpenCV         | 4.8     |
+| OpenCV contrib | 4.8     |
+| CUDA           | 12.6    |
+| cuDNN          | 9.3     |
+| TensorRT       | 10.3    |
 | OnnxRuntime    | 1.22.0  |
  
 
