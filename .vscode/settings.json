@@ -1,6 +1,6 @@
 {
     "cmake.debugConfig": {
-        "args": ["Example"]   // <-- default argument passed when running/debugging
+        "args": ["VideoInference"]
     },   
     "files.associations": {
         "pointers": "cpp",
