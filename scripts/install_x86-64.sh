@@ -12,7 +12,8 @@ sudo apt-get install -y cmake g++ build-essential clang-tidy gcc-12 g++-12 \
     libgtk2.0-dev pkg-config libgtk-3-0 libgail-common libatk-adaptor libgtk-3-common \
     gtk2-engines-murrine gtk2-engines-pixbuf libcanberra-gtk-module \
     libcanberra-gtk3-module ffmpeg libavcodec-dev libavformat-dev libswscale-dev \
-    libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgtk-3-dev libopenjp2-7-dev 
+    libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgtk-3-dev libopenjp2-7-dev \
+    zlib1g-dev git ninja-build libprotobuf-dev protobuf-compiler libeigen3-dev python3.10-venv
 
 ### CUDA 12.6
 
@@ -46,60 +47,63 @@ sudo apt-get -y install tensorrt
 
 ### ONNX Runtime 1.22.0
 
-# cd lib/onnxruntime
-# ./build.sh --config Release \
-#     --use_cuda \
-#     --cuda_home /usr/local/cuda-12.6 \
-#     --cudnn_home /usr \
-#     --use_tensorrt \
-#     --tensorrt_home /usr \
-#     --build_shared_lib \
-#     --parallel 18 \
-#     --cmake_extra_defines CMAKE_CXX_COMPILER=/usr/bin/g++-12 \
-#                           CMAKE_C_COMPILER=/usr/bin/gcc-12 \
-#                           CUDA_VERSION=12.6 \
-#                           CUDNN_VERSION=9.3.0 \
-#                           onnxruntime_BUILD_UNIT_TESTS=OFF
-# cd build/Linux/Release
-# make install
-# sudo cp -r ./install/* /usr/local/
-# cd ../../..
+cd lib/onnxruntime
+./build.sh --config Release \
+    --use_cuda \
+    --cuda_home /usr/local/cuda-12.6 \
+    --cudnn_home /usr \
+    --use_tensorrt \
+    --tensorrt_home /usr \
+    --build_shared_lib \
+    --parallel 8 \
+    --cmake_extra_defines CMAKE_CXX_COMPILER=/usr/bin/g++-12 \
+                          CMAKE_C_COMPILER=/usr/bin/gcc-12 \
+                          CUDA_VERSION=12.6 \
+                          CUDNN_VERSION=9.3.0 \
+                          onnxruntime_BUILD_UNIT_TESTS=OFF \
+                          onnxruntime_USE_PREINSTALLED_EIGEN=ON 
 
-# echo 'export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+cd build/Linux/Release
+make install
+sudo cp -r ./install/* /usr/local/
+cd ~/Object-
+
+echo 'export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+source ~/.bashrc
 
 ### OpenCV
 
-# mkdir -p lib/opencv/build
-# cd lib/opencv/build
+mkdir -p lib/opencv/build
+cd lib/opencv/build
 
-# cmake ../../opencv \
-#     -DCMAKE_BUILD_TYPE=Release \
-#     -DCMAKE_INSTALL_PREFIX=../install \
-#     -DBUILD_SHARED_LIBS=ON \
-#     -DBUILD_TESTS=OFF \
-#     -DBUILD_PERF_TESTS=OFF \
-#     -DWITH_QT=OFF \
-#     -DWITH_GTK=ON \
-#     -DWITH_OPENGL=OFF \
-#     -DWITH_VTK=OFF \
-#     -DWITH_CUDA=ON \
-#     -DWITH_CUDNN=ON \
-#     -DWITH_GSTREAMER=ON \
-#     -DWITH_FFMPEG=ON \
-#     -DCUDNN_INCLUDE_DIR=/usr/include/x86_64-linux-gnu \
-#     -DCUDNN_LIBRARY=/usr/lib/x86_64-linux-gnu/libcudnn.so \
-#     -DCUDA_ARCH_BIN=8.6 \
-#     -DCUDA_ARCH_PTX="" \
-#     -DOPENCV_DNN_CUDA=ON \
-#     -DOPENCV_ENABLE_NONFREE=ON \
-#     -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
-#     -DBUILD_opencv_python3=OFF \
-#     -DOPENCV_GENERATE_PKGCONFIG=ON \
-#     -DCMAKE_C_COMPILER=/usr/bin/gcc-12 \
-#     -DCMAKE_CXX_COMPILER=/usr/bin/g++-12
+cmake ../../opencv \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=../install \
+    -DBUILD_SHARED_LIBS=ON \
+    -DBUILD_TESTS=OFF \
+    -DBUILD_PERF_TESTS=OFF \
+    -DWITH_QT=OFF \
+    -DWITH_GTK=ON \
+    -DWITH_OPENGL=OFF \
+    -DWITH_VTK=OFF \
+    -DWITH_CUDA=ON \
+    -DWITH_CUDNN=ON \
+    -DWITH_GSTREAMER=ON \
+    -DWITH_FFMPEG=ON \
+    -DCUDNN_INCLUDE_DIR=/usr/include/ \
+    -DCUDNN_LIBRARY=/usr/lib/x86_64-linux-gnu/libcudnn.so \
+    -DCUDA_ARCH_BIN=8.6 \
+    -DCUDA_ARCH_PTX="" \
+    -DOPENCV_DNN_CUDA=ON \
+    -DOPENCV_ENABLE_NONFREE=ON \
+    -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+    -DBUILD_opencv_python3=OFF \
+    -DOPENCV_GENERATE_PKGCONFIG=ON \
+    -DCMAKE_C_COMPILER=/usr/bin/gcc-12 \
+    -DCMAKE_CXX_COMPILER=/usr/bin/g++-12
 
-# make -j18
-# make install
+make -j16
+make install
 
 ### Verify
 # nvcc --version
