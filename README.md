@@ -43,7 +43,7 @@ My master's thesis about a modular and high-performance object detection platfor
 | CUDA           | 12.6    |
 | cuDNN          | 9.3     |
 | TensorRT       | 10.3    |
-| OnnxRuntime    | 1.22.0  |
+| OnnxRuntime    | 1.22.1  |
  
 
 ### Clone and build
@@ -63,7 +63,7 @@ To export .onnx model you need to follow commands below
 ```bash
 git clone https://github.com/ultralytics/yolov5.git
 cd yolov5
-python3 -m vevn .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python export.py --weights yolov5s.pt --include onnx --dynamic --simplify
