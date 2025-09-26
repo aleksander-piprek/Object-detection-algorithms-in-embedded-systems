@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
+
+set(CMAKE_C_COMPILER /usr/bin/x86_64-linux-gnu-gcc-12)
+set(CMAKE_CXX_COMPILER /usr/bin/x86_64-linux-gnu-g++-12)
+
 project(oda)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -7,16 +11,25 @@ set(BASEPATH ${CMAKE_SOURCE_DIR})
 
 # === OpenCV ===
 set(OpenCV_INSTALL_DIR ${BASEPATH}/lib/opencv/install)
-find_package(OpenCV REQUIRED PATHS ${OpenCV_INSTALL_DIR} NO_DEFAULT_PATH)
+set(OpenCV_INCLUDE_DIRS ${OpenCV_INSTALL_DIR}/include/opencv4)
+set(OpenCV_LIBRARIES
+    ${OpenCV_INSTALL_DIR}/lib/libopencv_core.so
+    ${OpenCV_INSTALL_DIR}/lib/libopencv_imgproc.so
+    ${OpenCV_INSTALL_DIR}/lib/libopencv_highgui.so
+    ${OpenCV_INSTALL_DIR}/lib/libopencv_imgcodecs.so
+    ${OpenCV_INSTALL_DIR}/lib/libopencv_videoio.so
+    ${OpenCV_INSTALL_DIR}/lib/libopencv_dnn.so
+)
 
 # === ONNX Runtime ===
-set(OnnxRuntime_DIR "${CMAKE_SOURCE_DIR}/lib/onnxruntime")
-set(OnnxRuntime_INCLUDE_DIRS ${OnnxRuntime_DIR}/include)
-set(OnnxRuntime_LIBRARIES ${OnnxRuntime_DIR}/lib/libonnxruntime.so)
+set(OnnxRuntime_INCLUDE_DIRS /usr/local/include/onnxruntime)
+set(OnnxRuntime_LIBRARIES /usr/local/lib/libonnxruntime.so)
 
 # === CUDA ===
-find_package(CUDA REQUIRED)
-find_library(CUDART_LIBRARY cudart HINTS ${CUDA_TOOLKIT_ROOT_DIR}/lib64)
+set(CUDA_INCLUDE_DIRS /usr/local/cuda/include)
+find_library(CUDA_CUDART_LIBRARY cudart HINTS /usr/local/cuda/lib64)
+find_library(CUDA_CUBLAS_LIBRARY cublas HINTS /usr/local/cuda/lib64)
+set(CUDA_LIBRARIES ${CUDA_CUDART_LIBRARY} ${CUDA_CUBLAS_LIBRARY})
 
 # === cuDNN ===
 set(CUDNN_INCLUDE_DIR /usr/include/x86_64-linux-gnu)
@@ -57,8 +70,10 @@ set(SOURCES
 
 # === Build main app ===
 add_executable(oda ${SOURCES})
-target_link_libraries(oda
-    ${OpenCV_LIBS}
+
+target_link_libraries(
+    oda
+    ${OpenCV_LIBRARIES}
     ${OnnxRuntime_LIBRARIES}
     ${CUDA_LIBRARIES}
     ${CUDART_LIBRARY}
