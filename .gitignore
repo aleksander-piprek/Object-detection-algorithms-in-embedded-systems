@@ -1,8 +1,13 @@
-bin/*.onnx
-bin/*.engine
+## Directories
 build
 lib
-.vscode/*
-*.log
+.vscode
 resources
-cfg/*
+
+
+## Files
+bin/coco.names
+*.onnx
+*.engine
+*.cfg
+*.log

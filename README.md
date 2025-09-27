@@ -71,16 +71,23 @@ mkdir ~/Object-detection-algorithms-in-embedded-systems/bin
 cp yolov5s.onnx ~/Object-detection-algorithms-in-embedded-systems/bin/
 ```
 
-### TensorRT
-Exporting models from .onnx format to TensorRT, can be done using command below
+If Python environment has been already created already, just run
 ```
-/usr/src/tensorrt/bin/trtexec   --onnx=yolov5s.onnx   --saveEngine=yolov5m_fp16.engine   --fp16   --minShapes=images:1x3x640x640   --optShapes=images:1x3x640x640   --maxShapes=images:1x3x640x640
+source .venv/bin/activate
+python export.py --weights yolov5s.pt --include onnx --dynamic --simplify
+cp yolov5s.onnx ~/Object-detection-algorithms-in-embedded-systems/bin/
+```
+
+### TensorRT
+Exporting models from .onnx format to TensorRT, can be done using example command below
+```
+/usr/src/tensorrt/bin/trtexec   --onnx=yolov5s.onnx   --saveEngine=yolov5s_fp16.engine   --fp16   --minShapes=images:1x3x640x640   --optShapes=images:1x3x640x640   --maxShapes=images:1x3x640x640
 ```
 
 ## Usage
-Code uses .cfg files for faster compilation
+Code uses .cfg files for faster compilation. .vscode/settings.json is used for default argument call when using CMake extension. To run command line, run command below for all possible programs 
 ```
-./oda Example
+./oda --help
 ```
 
 ## Notes
