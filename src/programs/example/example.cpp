@@ -16,12 +16,12 @@ void Example::run()
     // imageBlur();
     // imageEdgeDetection();
     // rotateImage();
-    // imageInference();
+    imageInference();
     
     // // 
     // // Video Processing Example
     // //
-    playVideo();
+    // playVideo();
     // videoInference();
 
     // // 
@@ -151,8 +151,8 @@ void Example::imageInference()
     input->read(frame);
     auto detections = detection->inference(frame);
     detection->drawDetections(frame, detections);
-    cv::imwrite("../resources/output/image/jpg.jpg", frame);
-    while (true) 
+
+    while(true) 
     {
         output->write(frame);
         if (cv::waitKey(1) == 27) 
