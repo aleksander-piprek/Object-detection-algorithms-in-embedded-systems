@@ -6,7 +6,6 @@ lib/onnxruntime/
 .vscode
 resources
 
-
 ## Files
 bin/coco.names
 *.onnx

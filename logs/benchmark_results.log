@@ -1,7 +1,0 @@
-Model: yolov5s.onnx, Video: video1.mp4
-Frames: 1817
-Processing FPS: 35.6249
-Avg latency (ms): 25.0893
-Total detections: 9376
-Avg detection confidence: 0.514734
------------------------------
