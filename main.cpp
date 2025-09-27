@@ -25,9 +25,8 @@ int main(int argc, char** argv)
             example.run();
         }
         else if(programName == "Benchmark")
-        {
-            std::string benchmarkConfigPath = "../cfg/benchmark.cfg";            
-            Benchmark benchmarkInstance(benchmarkConfigPath);
+        {    
+            Benchmark benchmarkInstance;
             benchmarkInstance.run();
         }
         else if(programName == "VideoInference")

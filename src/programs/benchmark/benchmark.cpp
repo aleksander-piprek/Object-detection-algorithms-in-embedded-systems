@@ -8,51 +8,38 @@
 #include "src/components/utils/ConfigLoader/ConfigLoader.hpp"
 
 #include <numeric>
-
-Benchmark::Benchmark(const std::string& configPath)
-{
-    if(!loadBenchmarkConfig(configPath))
-    {
-        std::cout << "Failed to load benchmark configuration." << std::endl;
-        return;     
-    }
-}
+#include <fstream>
 
 void Benchmark::run()
 {
-    benchmarkVideoInference();
+    for(const auto& modelPath : models)
+    {
+        for(const auto& videoPath : videosPaths)
+        {
+            std::cout << "Benchmarking Model: " << modelPath << " on Video: " << videoPath << std::endl;
+            benchmarkVideoInference(videoPath, modelPath);
+        }
+    }
 }
 
-bool Benchmark::loadBenchmarkConfig(const std::string& configPath)
-{
-    auto configMap = ConfigLoader::loadConfig(configPath);
-    if (configMap.empty()) 
-        return false;
-
-    modelPath = configMap["ModelName"];
-    videoPath = configMap["VideoName"];
-    classNamesPath = configMap["Dataset"];
-    confThreshold = std::stof(configMap["ConfThreshold"]);
-    nmsThreshold = std::stof(configMap["NmsThreshold"]);
-
-    return true; 
-}
-
-void Benchmark::benchmarkVideoInference()
+void Benchmark::benchmarkVideoInference(std::string videoPath, std::string modelPath)
 {
     std::unique_ptr<BaseInput> input;
     std::unique_ptr<BaseDetection> detection;
 
-    input = std::make_unique<VideoInput>(videoPath);
-    if(modelPath.find(".onnx") != std::string::npos)
-        detection = std::make_unique<YoloDetection>(modelPath, classNamesPath, confThreshold, nmsThreshold);    
-    else if(modelPath.find(".engine") != std::string::npos)
-        detection = std::make_unique<YoloDetectionTRT>(modelPath, classNamesPath);
+    const std::string video_path = "../resources/input/video/" + videoPath;
+    const std::string model_path = "../bin/" + modelPath;
+
+    input = std::make_unique<VideoInput>(video_path);
+    if(model_path.find(".onnx") != std::string::npos)
+        detection = std::make_unique<YoloDetection>(model_path, "..bin/coco.names");    
+    else if(model_path.find(".engine") != std::string::npos)
+        detection = std::make_unique<YoloDetectionTRT>(model_path, "..bin/coco.names");
     else
     {
         std::cout << "Unsupported model format. Please use .onnx or .engine files." << std::endl;
         return;
-    } 
+    }
 
     cv::Mat frame;
     input->read(frame);
@@ -87,9 +74,20 @@ void Benchmark::benchmarkVideoInference()
     double avgLatency = std::accumulate(latencies.begin(), latencies.end(), 0.0) / latencies.size();
     double avgScore = totalDetections > 0 ? totalScore / totalDetections : 0.0;
 
-    std::cout << "Frames: " << frameCount << "\n";
-    std::cout << "Processing FPS: " << avgFPS << "\n";
-    std::cout << "Avg latency (ms): " << avgLatency << "\n";
-    std::cout << "Total detections: " << totalDetections << "\n";
-    std::cout << "Avg detection confidence: " << avgScore << "\n";
+    std::ofstream resultFile("../logs/benchmark_results.log", std::ios::app);
+    if (resultFile.is_open()) 
+    {
+        resultFile << "Model: " << modelPath << ", Video: " << videoPath << "\n";
+        resultFile << "Frames: " << frameCount << "\n";
+        resultFile << "Processing FPS: " << avgFPS << "\n";
+        resultFile << "Avg latency (ms): " << avgLatency << "\n";
+        resultFile << "Total detections: " << totalDetections << "\n";
+        resultFile << "Avg detection confidence: " << avgScore << "\n";
+        resultFile << "-----------------------------\n";
+        resultFile.close();
+    } 
+    else 
+    {
+        std::cout << "Failed to open benchmark_results.txt for writing.\n";
+    }
 }
