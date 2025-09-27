@@ -1,9 +1,0 @@
-[submodule "lib/opencv"]
-	path = lib/opencv
-	url = https://github.com/opencv/opencv.git
-[submodule "lib/opencv_contrib"]
-	path = lib/opencv_contrib
-	url = https://github.com/opencv/opencv_contrib.git
-[submodule "lib/onnxruntime"]
-	path = lib/onnxruntime
-	url = https://github.com/microsoft/onnxruntime.git

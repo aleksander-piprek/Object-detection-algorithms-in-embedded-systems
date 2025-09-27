@@ -1,8 +1,5 @@
 ## Directories
 build
-lib/opencv/
-lib/opencv_contrib/
-lib/onnxruntime/
 .vscode
 resources
 

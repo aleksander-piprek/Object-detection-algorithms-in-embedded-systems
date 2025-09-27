@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(BASEPATH ${CMAKE_SOURCE_DIR})
 
 # === OpenCV ===
-set(OpenCV_INSTALL_DIR ${BASEPATH}/lib/opencv/install)
+set(OpenCV_INSTALL_DIR /usr/local)
 set(OpenCV_INCLUDE_DIRS ${OpenCV_INSTALL_DIR}/include/opencv4)
 set(OpenCV_LIBRARIES
     ${OpenCV_INSTALL_DIR}/lib/libopencv_core.so
@@ -18,8 +18,7 @@ set(OpenCV_LIBRARIES
     ${OpenCV_INSTALL_DIR}/lib/libopencv_highgui.so
     ${OpenCV_INSTALL_DIR}/lib/libopencv_imgcodecs.so
     ${OpenCV_INSTALL_DIR}/lib/libopencv_videoio.so
-    ${OpenCV_INSTALL_DIR}/lib/libopencv_dnn.so
-)
+    ${OpenCV_INSTALL_DIR}/lib/libopencv_dnn.so)
 
 # === ONNX Runtime ===
 set(OnnxRuntime_INCLUDE_DIRS /usr/local/include/onnxruntime)
@@ -79,5 +78,4 @@ target_link_libraries(
     ${CUDART_LIBRARY}
     ${CUDNN_LIBRARY}
     ${TENSORRT_LIBRARY}
-    ${TENSORRT_PLUGIN_LIBRARY}
-)
+    ${TENSORRT_PLUGIN_LIBRARY})

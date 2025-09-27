@@ -45,9 +45,13 @@ sudo cp /var/nv-tensorrt-local-repo-ubuntu2204-10.3.0-cuda-12.5/nv-tensorrt-loca
 sudo apt-get update
 sudo apt-get -y install tensorrt
 
-### ONNX Runtime 1.22.0
+### ONNX Runtime 1.22.1
 
-cd lib/onnxruntime
+cd ~
+git clone https://github.com/microsoft/onnxruntime
+cd onnxruntime
+git checkout v1.22.1
+
 ./build.sh --config Release \
     --use_cuda \
     --cuda_home /usr/local/cuda-12.6 \
@@ -64,21 +68,27 @@ cd lib/onnxruntime
                           onnxruntime_USE_PREINSTALLED_EIGEN=ON 
 
 cd build/Linux/Release
-make install
-sudo cp -r ./install/* /usr/local/
-cd ~/Object-
+sudo make install
 
 echo 'export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
 source ~/.bashrc
 
 ### OpenCV
 
-mkdir -p lib/opencv/build
-cd lib/opencv/build
+cd ~
+git clone https://github.com/opencv/opencv.git
+git clone https://github.com/opencv/opencv_contrib.git
+cd opencv
+git checkout 4.10.0
+cd ../opencv_contrib
+git checkout 4.10.0
+cd .. 
+mkdir -p opencv/build
+cd opencv/build
 
 cmake ../../opencv \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=../install \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_TESTS=OFF \
     -DBUILD_PERF_TESTS=OFF \
@@ -103,7 +113,7 @@ cmake ../../opencv \
     -DCMAKE_CXX_COMPILER=/usr/bin/g++-12
 
 make -j16
-make install
+sudo make install
 
 ### Verify
 # nvcc --version
