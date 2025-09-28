@@ -7,5 +7,5 @@ resources
 bin/coco.names
 *.onnx
 *.engine
-*.cfg
+cfg/*.cfg
 *.log
