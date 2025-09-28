@@ -10,10 +10,14 @@ sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get install -y cmake g++ build-essential clang-tidy gcc-12 g++-12 \
     libgtk2.0-dev pkg-config libgtk-3-0 libgail-common libatk-adaptor libgtk-3-common \
-    gtk2-engines-murrine gtk2-engines-pixbuf libcanberra-gtk-module \
-    libcanberra-gtk3-module ffmpeg libavcodec-dev libavformat-dev libswscale-dev \
-    libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgtk-3-dev libopenjp2-7-dev \
-    zlib1g-dev git ninja-build libprotobuf-dev protobuf-compiler libeigen3-dev python3.10-venv
+    gtk2-engines-murrine gtk2-engines-pixbuf libcanberra-gtk-module libcanberra-gtk3-module \
+    ffmpeg libavcodec-dev libavformat-dev libswscale-dev libgstreamer1.0-dev \
+    libgstreamer-plugins-base1.0-dev libgtk-3-dev libopenjp2-7-dev zlib1g-dev git \
+    ninja-build libprotobuf-dev protobuf-compiler libeigen3-dev python3.10-venv \
+    curl libv4l-dev v4l-utils qv4l2 libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
+    v4l2loopback-dkms libxvidcore-dev libx264-dev libatlas-base-dev libgtkglext1-dev \
+    libgl1-mesa-dev libglew-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-bad \
+    gstreamer1.0-libav gstreamer1.0-plugins-ugly
 
 ### CUDA 12.6
 
@@ -92,12 +96,18 @@ cmake ../../opencv \
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_TESTS=OFF \
     -DBUILD_PERF_TESTS=OFF \
-    -DWITH_QT=OFF \
     -DWITH_GTK=ON \
-    -DWITH_OPENGL=OFF \
+    -DWITH_V4L=ON \
+    -DENABLE_FAST_MATH=1 \
+    -DCUDA_FAST_MATH=1 \
+    -DWITH_QT=OFF \
+    -DWITH_OPENGL=ON \
     -DWITH_VTK=OFF \
     -DWITH_CUDA=ON \
     -DWITH_CUDNN=ON \
+    -DWITH_CUBLAS=1 \
+    -DWITH_TBB=ON \
+    -DOPENCV_DNN_CUDA=ON \
     -DWITH_GSTREAMER=ON \
     -DWITH_FFMPEG=ON \
     -DCUDNN_INCLUDE_DIR=/usr/include/ \

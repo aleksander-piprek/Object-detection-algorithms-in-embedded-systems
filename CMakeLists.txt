@@ -11,7 +11,7 @@ set(BASEPATH ${CMAKE_SOURCE_DIR})
 
 # === OpenCV ===
 set(OpenCV_INSTALL_DIR /usr/local)
-set(OpenCV_INCLUDE_DIRS ${OpenCV_INSTALL_DIR}/include/opencv4)
+set(OpenCV_INCLUDE_DIRS ${OpenCV_INSTALL_DIR}/include/opencv5)
 set(OpenCV_LIBRARIES
     ${OpenCV_INSTALL_DIR}/lib/libopencv_core.so
     ${OpenCV_INSTALL_DIR}/lib/libopencv_imgproc.so
